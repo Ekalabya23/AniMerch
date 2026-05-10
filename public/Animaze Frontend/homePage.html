@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AniMerch— Anime Merchandise</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="./CSS/homePage.css" />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="badge">New Drop Live</div>
+      <div>Free shipping on orders over ₹1,999</div>
+      <div>INR (₹)</div>
+    </div>
+
+    <header>
+      <div class="logo"><i></i><span>AniMerch</span></div>
+      <nav>
+        <a class="nav-btn" href="#">New</a>
+        <a class="nav-btn" href="#">Apparel</a>
+        <a class="nav-btn" href="#">Figures</a>
+        <a class="nav-btn" href="#">Accessories</a>
+        <a class="nav-btn" href="#">Sale</a>
+      </nav>
+      <button class="cta">Sign In</button>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <div class="kicker">Limited Collection</div>
+        <h1 class="headline">
+          Anime streetwear that <span class="type">actually looks clean.</span>
+        </h1>
+        <p class="hero-sub">
+          Premium tees, hoodies, posters & figures inspired by your favorite
+          shows. Fast shipping in India. Fully SSR-friendly markup.
+        </p>
+        <div class="hero-actions">
+          <button class="cta">Shop Now</button>
+          <a class="nav-btn" href="#products">Browse All</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="floaty"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Popular Categories</h2>
+      <div class="cats">
+        <a class="cat" href="#"><i></i> Tees</a>
+        <a class="cat" href="#"><i></i> Hoodies</a>
+        <a class="cat" href="#"><i></i> Posters</a>
+        <a class="cat" href="#"><i></i> Keychains</a>
+        <a class="cat" href="#"><i></i> Figures</a>
+        <a class="cat" href="#"><i></i> Stickers</a>
+      </div>
+    </section>
+
+    <section id="products" class="section">
+      <h2>Featured Products</h2>
+      <div class="products">
+        <!-- Product Card 1 -->
+        <article class="card">
+          <div class="thumb">
+            <img
+              src="https://www.comicsense.store/wp-content/uploads/2025/08/Haikyu-Oversized-Jersey_Listing-Imdfages_v2-1_comicsense-300x400.jpg"
+              alt="Anime Tee"
+            />
+            <span class="sale">-20%</span>
+          </div>
+          <div class="content">
+            <h3 class="title">Shinobi Oversized Tee</h3>
+            <div class="meta">100% Cotton • Unisex</div>
+            <div class="price-row">
+              <div class="price">₹799</div>
+              <button
+                class="add"
+                onclick="void(0)"
+                onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', (event.clientX-r.left)+'px');this.style.setProperty('--y', (event.clientY-r.top)+'px');"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product Card 2 -->
+        <article class="card">
+          <div class="thumb">
+            <img
+              src="https://www.comicsense.store/wp-content/uploads/2022/12/bp19230_4_comicsense.jpg"
+              alt="Anime Hoodie"
+            />
+          </div>
+          <div class="content">
+            <h3 class="title">Kaizen Hoodie</h3>
+            <div class="meta">Fleece • Heavyweight</div>
+            <div class="price-row">
+              <div class="price">₹1,999</div>
+              <button
+                class="add"
+                onclick="void(0)"
+                onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', (event.clientX-r.left)+'px');this.style.setProperty('--y', (event.clientY-r.top)+'px');"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product Card 3 -->
+        <article class="card">
+          <div class="thumb">
+            <img
+              src="https://www.comicsense.store/wp-content/uploads/2025/06/doflamingo_puru_snail_big_4_comicsense-600x800.jpg"
+              alt="Anime Figure"
+            />
+          </div>
+          <div class="content">
+            <h3 class="title">Hero Figurine</h3>
+            <div class="meta">PVC • 18cm</div>
+            <div class="price-row">
+              <div class="price">₹2,499</div>
+              <button
+                class="add"
+                onclick="void(0)"
+                onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', (event.clientX-r.left)+'px');this.style.setProperty('--y', (event.clientY-r.top)+'px');"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product Card 4 -->
+        <article class="card">
+          <div class="thumb">
+            <img
+              src="https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1200&auto=format&fit=crop"
+              alt="Poster"
+            />
+          </div>
+          <div class="content">
+            <h3 class="title">Neon City Poster</h3>
+            <div class="meta">A3 • Matte</div>
+            <div class="price-row">
+              <div class="price">₹399</div>
+              <button
+                class="add"
+                onclick="void(0)"
+                onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', (event.clientX-r.left)+'px');this.style.setProperty('--y', (event.clientY-r.top)+'px');"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-newArrival">
+    <div class="bg-layer" aria-hidden>
+      <div class="blob a"></div>
+      <div class="blob b"></div>
+    </div>
+
+    <div class="wrap">
+        <h1 class="titel-newArrival">New arrivals</h1>
+      <section
+        class="anim-carousel"
+        aria-roledescription="carousel"
+        aria-label="New arrivals"
+      >
+        <div class="anim-nav" aria-hidden="false">
+          <button id="animPrev" aria-label="Previous">‹</button>
+          <button id="animNext" aria-label="Next">›</button>
+        </div>
+
+        <div
+          class="anim-viewport"
+          id="animViewport"
+          tabindex="0"
+          aria-live="polite"
+        >
+          <div class="anim-row" id="animRow" role="list">
+            <!-- ===== SSR: loop your products here (server outputs just these nodes). =====
+               Example EJS:
+               <% products.forEach(function(p, idx){ %>
+                 <article class="anim-item" data-idx="<%= idx %>" <% if(p.center){ %> data-center="true" <% } %> >
+                   <div class="art"><img src="<%= p.coverImage %>" alt="<%= p.name %>"></div>
+                   <div class="meta"><div class="title"><%= p.name %></div><div class="sub"><%= p.genre %></div></div>
+                   <a class="anim-shop" href="/product/<%= p.slug %>">SHOP NOW</a>
+                 </article>
+               <% }) %>
+             ========================================================================== -->
+
+            <!-- Sample static items for preview; replace with server-rendered items -->
+            <article class="anim-item" data-idx="0">
+              <div class="art">
+                <img src="" alt="">
+              </div>
+              <div class="meta">
+                <div class="title">Goku Ultra</div>
+                <div class="sub">Figure • 18cm</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="1">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1708034677699-6f39d9c59f6e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YW5pbWUlMjB3YWxscGFwZXJ8ZW58MHx8MHx8fDA%3D"
+                  alt="Rengoku Mini"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Rengoku Mini</div>
+                <div class="sub">Figure • 15cm</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="2" data-center="true">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1668119064420-fb738fb05e32?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGFuaW1lJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww"
+                  alt="Gyomei Him"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Gyomei Him</div>
+                <div class="sub">Statue</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="3">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1705932461994-6fb2b07f27dd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGFuaW1lJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww"
+                  alt="Sukuna Finger"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Sukuna Finger</div>
+                <div class="sub">Collectible</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="4">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1677143016924-82f8c6da9daa?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGFuaW1lJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww"
+                  alt="Ace"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Ace</div>
+                <div class="sub">Figure</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="5">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1677143051370-da2e52baa771?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE0fHxhbmltZSUyMHdhbGxwYXBlcnxlbnwwfHwwfHx8MA%3D%3D"
+                  alt="Toji Fushiguro"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Toji Weapon</div>
+                <div class="sub">Weapon</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+   <script>
+/* Infinite carousel logic (SSR-safe):
+   - Server renders original items only inside #animRow.
+   - Script clones these nodes (prepend + append) for infinite scrolling.
+   - Only scrolls inside #animViewport, never moves page position.
+*/
+
+(function () {
+  const viewport = document.getElementById("animViewport");
+  const row = document.getElementById("animRow");
+  if (!viewport || !row) return;
+
+  const originalNodes = Array.from(row.children);
+  const originalCount = originalNodes.length;
+  if (originalCount === 0) return;
+
+  const prependFrag = document.createDocumentFragment();
+  const appendFrag = document.createDocumentFragment();
+
+  for (let i = originalCount - 1; i >= 0; i--) {
+    prependFrag.insertBefore(originalNodes[i].cloneNode(true), prependFrag.firstChild);
+  }
+  for (let i = 0; i < originalCount; i++) {
+    appendFrag.appendChild(originalNodes[i].cloneNode(true));
+  }
+
+  row.insertBefore(prependFrag, row.firstChild);
+  row.appendChild(appendFrag);
+
+  let fullNodes = Array.from(row.children);
+  const total = fullNodes.length;
+
+  let serverIndex = originalNodes.findIndex(n => n.hasAttribute("data-center"));
+  if (serverIndex === -1) serverIndex = Math.floor(originalCount / 2);
+
+  let centerIndex = originalCount + serverIndex;
+
+  // ✅ Fixed scrollToIndex (container only, no page jump)
+  function scrollToIndex(idx, behavior = "smooth") {
+    const el = fullNodes[idx];
+    if (!el) return;
+    const scrollContainer = viewport;
+    const containerCenter = scrollContainer.offsetWidth / 2;
+    const targetCenter = el.offsetLeft + el.offsetWidth / 2;
+    const scrollLeft = targetCenter - containerCenter;
+
+    scrollContainer.scrollTo({
+      left: scrollLeft,
+      behavior: behavior
+    });
+  }
+
+  function applyClasses() {
+    fullNodes = Array.from(row.children);
+    fullNodes.forEach((el, i) => {
+      el.classList.remove("anim-center", "anim-near", "anim-far", "active");
+      if (i === centerIndex) el.classList.add("anim-center", "active");
+      else if (i === centerIndex - 1 || (centerIndex === 0 && i === fullNodes.length - 1))
+        el.classList.add("anim-near");
+      else if (i === centerIndex + 1 || (centerIndex === fullNodes.length - 1 && i === 0))
+        el.classList.add("anim-near");
+      else el.classList.add("anim-far");
+    });
+  }
+
+  function normalizeIndexIfNeeded() {
+    const startOriginal = originalCount;
+    const endOriginal = originalCount * 2 - 1;
+
+    if (centerIndex > endOriginal) {
+      const offset = centerIndex - originalCount * 2;
+      centerIndex = originalCount + offset;
+      scrollToIndex(centerIndex, "auto");
+      applyClasses();
+    } else if (centerIndex < startOriginal) {
+      const offset = centerIndex;
+      centerIndex = originalCount + offset;
+      scrollToIndex(centerIndex, "auto");
+      applyClasses();
+    }
+  }
+
+  function next() {
+    centerIndex = (centerIndex + 1) % fullNodes.length;
+    scrollToIndex(centerIndex, "smooth");
+    applyClasses();
+    setTimeout(normalizeIndexIfNeeded, 520);
+  }
+  function prev() {
+    centerIndex = (centerIndex - 1 + fullNodes.length) % fullNodes.length;
+    scrollToIndex(centerIndex, "smooth");
+    applyClasses();
+    setTimeout(normalizeIndexIfNeeded, 520);
+  }
+
+  const DELAY = 2000;
+  let timer = null;
+  let paused = false;
+  function start() {
+    stop();
+    timer = setInterval(() => {
+      if (!paused) next();
+    }, DELAY);
+  }
+  function stop() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+  function restart() {
+    stop();
+    start();
+  }
+
+  fullNodes.forEach((el, idx) => {
+    el.addEventListener("click", () => {
+      centerIndex = idx;
+      scrollToIndex(centerIndex, "smooth");
+      applyClasses();
+      setTimeout(normalizeIndexIfNeeded, 520);
+      restart();
+    });
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        centerIndex = idx;
+        scrollToIndex(centerIndex, "smooth");
+        applyClasses();
+        setTimeout(normalizeIndexIfNeeded, 520);
+        restart();
+      }
+    });
+  });
+
+  const prevBtn = document.getElementById("animPrev");
+  const nextBtn = document.getElementById("animNext");
+  if (prevBtn) prevBtn.addEventListener("click", e => { e.preventDefault(); prev(); });
+  if (nextBtn) nextBtn.addEventListener("click", e => { e.preventDefault(); next(); });
+
+  viewport.addEventListener("mouseenter", () => paused = true);
+  viewport.addEventListener("mouseleave", () => paused = false);
+  viewport.addEventListener("focusin", () => paused = true);
+  viewport.addEventListener("focusout", () => paused = false);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") next();
+  });
+
+  const imgs = row.querySelectorAll("img");
+  let pending = imgs.length;
+  if (pending === 0) {
+    scrollToIndex(centerIndex, "auto");
+    applyClasses();
+    start();
+  } else {
+    imgs.forEach((img) => {
+      if (img.complete) {
+        pending--;
+      } else img.addEventListener("load", () => {
+        pending--;
+        if (pending === 0) {
+          scrollToIndex(centerIndex, "auto");
+          applyClasses();
+          start();
+        }
+      }, { once: true });
+      img.addEventListener("error", () => {
+        pending--;
+        if (pending === 0) {
+          scrollToIndex(centerIndex, "auto");
+          applyClasses();
+          start();
+        }
+      }, { once: true });
+    });
+    setTimeout(() => {
+      if (!timer) {
+        scrollToIndex(centerIndex, "auto");
+        applyClasses();
+        start();
+      }
+    }, 900);
+  }
+
+  let rTimer = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(rTimer);
+    rTimer = setTimeout(() => {
+      scrollToIndex(centerIndex, "auto");
+      applyClasses();
+    }, 120);
+  });
+
+  window.__animaze_infinite = {
+    next,
+    prev,
+    jumpTo: (idx) => {
+      centerIndex = originalCount + (idx % originalCount);
+      scrollToIndex(centerIndex, "smooth");
+      applyClasses();
+      setTimeout(normalizeIndexIfNeeded, 520);
+    },
+  };
+})();
+</script>
+
+  <section class="animaze-category-grid">
+  <div class="animaze-category-card" style="background-image: url('https://www.comicsense.store/wp-content/uploads/2024/07/berserl_deskmat_listing-1_comicsense.jpg');">
+    <div class="meta meta-extended meta-catagory ">
+        <h2>DESKMATS</h2>
+        </div>
+  </div>
+
+  <div class="animaze-category-card" style="background-image: url('https://www.comicsense.store/wp-content/uploads/2024/05/Ace_Chained_onepiece_big_figurine_listing_amazon-2.jpg');">
+    
+    <div class="meta meta-extended meta-catagory ">
+       <h2>FIGURINES</h2>
+        </div>
+  </div>
+  </div>
+
+  <div class="animaze-category-card" style="background-image: url('https://www.comicsense.store/wp-content/uploads/2023/12/banner-manga.jpg');">
+    <div class="meta meta-extended meta-catagory ">
+       <h2>MANGA</h2>
+        </div>
+    
+  </div>
+
+  <div class="animaze-category-card" style="background-image: url('https://www.comicsense.store/wp-content/uploads/2024/07/ace_bagcharm_plushie_listing5-14x9x7_comicsense.jpg');">
+    <div class="meta meta-extended meta-catagory ">
+      <h2>PLUSHIES</h2>
+        </div>
+    
+  </div>
+</section>
+
+
+  </section>
+
+    <section class="section-animae">
+      <div class="bg-layer" aria-hidden>
+        <div class="bg-blob b1"></div>
+        <div class="bg-blob b2"></div>
+      </div>
+
+      <div class="wrap">
+        <div class="hero-title">Shop merch by anime</div>
+        <div class="hero-sub">
+          Hover a poster to preview — click to open product
+        </div>
+
+        <div class="strip" role="region" aria-label="Popular anime strip">
+          <div class="row" id="row" tabindex="0">
+            <!-- Card 1 -->
+            <article
+              class="card-animae"
+              tabindex="0"
+              data-title="Dragon Ball"
+              data-img="https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1600&auto=format&fit=crop"
+            >
+              <div class="art">
+                <img
+                  class="bg"
+                  src="https://m.media-amazon.com/images/I/91EU9HyHvLL._UF1000,1000_QL80_.jpg"
+                  alt="Dragon Ball art"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Dragon Ball</div>
+                <div class="tag">Collectors • Figures</div>
+              </div>
+              <a class="shop-now" href="#" aria-hidden>Shop Now</a>
+            </article>
+
+            <!-- Card 2 -->
+            <article
+              class="card-animae"
+              tabindex="0"
+              data-title="One Piece"
+              data-img="https://i.pinimg.com/736x/58/27/67/58276760ec13f352fc8f77a9f2c2da3f.jpg"
+            >
+              <div class="art">
+                <img
+                  class="bg"
+                  src="https://i.pinimg.com/736x/58/27/67/58276760ec13f352fc8f77a9f2c2da3f.jpg"
+                  alt="One Piece art"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">One Piece</div>
+                <div class="tag">Luffy • Streetwear</div>
+              </div>
+              <a class="shop-now" href="#" aria-hidden>Shop Now</a>
+            </article>
+
+            <!-- Card 3 (center by default) -->
+            <article
+              class="card-animae center"
+              tabindex="0"
+              data-title="Demon Slayer"
+              data-img="https://images.unsplash.com/photo-1618354691438-be0ecf671c7f?q=80&w=1600&auto=format&fit=crop"
+            >
+              <div class="art">
+                <img
+                  class="bg"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4WiTvCIjnfkQSzU07H2epdXwuTMq_FMW-A&s"
+                  alt="Demon Slayer art"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Demon Slayer</div>
+                <div class="tag">Kimetsu no Yaiba • Limited</div>
+              </div>
+              <a class="shop-now" href="#" aria-hidden>Shop Now</a>
+            </article>
+
+            <!-- Card 4 -->
+            <article
+              class="card-animae"
+              tabindex="0"
+              data-title="Naruto"
+              data-img="https://images.unsplash.com/photo-1606117331085-5760fe8c9b80?q=80&w=1600&auto=format&fit=crop"
+            >
+              <div class="art">
+                <img
+                  class="bg"
+                  src="https://i.pinimg.com/736x/0a/5a/d4/0a5ad48884e7b8660792f7e53c47e3c0.jpg"
+                  alt="Naruto art"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Naruto</div>
+                <div class="tag">Streetwear • Tees</div>
+              </div>
+              <a class="shop-now" href="#" aria-hidden>Shop Now</a>
+            </article>
+
+            <!-- Card 5 -->
+            <article
+              class="card-animae"
+              tabindex="0"
+              data-title="Jujutsu Kaisen"
+              data-img="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop"
+            >
+              <div class="art">
+                <img
+                  class="bg"
+                  src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop"
+                  alt="Jujutsu Kaisen art"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Jujutsu Kaisen</div>
+                <div class="tag">Collectors • Posters</div>
+              </div>
+              <a class="shop-now" href="#" aria-hidden>Shop Now</a>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // Interactive behavior:
+        // - clicking a card centers it (adds .center to the clicked card)
+        // - hover/focus animations are CSS-driven; JS moves center on click
+        const row = document.getElementById("row");
+        const cards = Array.from(document.querySelectorAll(".card"));
+
+        // helper to set center index
+        function setCenter(idx) {
+          cards.forEach((c, i) => c.classList.toggle("center", i === idx));
+          // scroll the row so the center is roughly in view
+          const card = cards[idx];
+          if (card) {
+            const rect = card.getBoundingClientRect();
+            const rowRect = row.getBoundingClientRect();
+            // center card horizontally in the row viewport
+            const offset =
+              (rect.left + rect.right) / 2 - (rowRect.left + rowRect.right) / 2;
+            row.scrollBy({ left: offset, behavior: "smooth" });
+            // focus the card for keyboard users
+            card.focus({ preventScroll: true });
+          }
+        }
+
+        // make the middle card centered initially (index 2)
+        const initial = Math.floor(cards.length / 2);
+        setCenter(initial);
+
+        // click centers card and triggers a demo action
+        cards.forEach((card, i) => {
+          card.addEventListener("click", (e) => {
+            setCenter(i);
+            // small demo: open a product detail or navigate. Replace with real link:
+            // location.href = '/product/' + (card.dataset.slug || encodeURIComponent(card.dataset.title.toLowerCase()));
+          });
+
+          // keyboard: Enter opens center action
+          card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setCenter(i);
+            }
+          });
+
+          // on hover, show shop now popup handled by CSS
+          // but also highlight with JS if you want fine control (not necessary)
+        });
+
+        // optional: use arrow keys to move center
+        document.addEventListener("keydown", (e) => {
+          const idx = cards.findIndex((c) => c.classList.contains("center"));
+          if (e.key === "ArrowLeft") setCenter(Math.max(0, idx - 1));
+          if (e.key === "ArrowRight")
+            setCenter(Math.min(cards.length - 1, idx + 1));
+        });
+      </script>
+    </section>
+
+    <section class="category-section">
+      <div
+        class="category-card"
+        style="background-image: url('https://www.comicsense.store/wp-content/uploads/2024/02/Sasuke_jogger_listing-1-scaled.jpg')"
+      > 
+         <a class="meta meta-extended" href="#">
+        <span class="category-title">JOGGERS</span>
+        </a>
+      </div>
+      <div
+        class="category-card"
+        style="background-image: url('https://www.comicsense.store/wp-content/uploads/2023/03/onepiece_wantedpirates_hawaiianshirt_listing-2-scaled-600x800.jpg')""
+      >
+         <a class="meta meta-extended" href="#">
+        <span class="category-title">COSPLAY</span>
+        </a>
+      </div>
+      <div
+        class="category-card"
+        style="background-image: url('https://www.comicsense.store/wp-content/uploads/2025/08/Haikyu-Oversized-Jersey_Listing-Imdfages_v2-1_comicsense.jpg')"
+      >
+         <a class="meta meta-extended " href="#">
+        <span class="category-title">SHIRTS</span>
+        </a>
+      </div>
+      <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll(".category-card").forEach(card => {
+      observer.observe(card);
+    });
+  });
+</script>
+    </section>
+
+<footer class="animaze-footer">
+  <div class="footer-overlay"></div>
+  <div class="footer-container">
+    
+    <!-- Brand -->
+    <div class="footer-brand">
+      <div class="logo footer-logo"><i></i><span>AniMerch</span></div>
+      <p>Step into the world of anime collectibles, figures, and merch — crafted for true fans.</p>
+    </div>
+
+    <!-- Links -->
+    <div class="footer-section">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Shop</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Categories -->
+    <div class="footer-section">
+      <h3>Genres</h3>
+      <ul>
+        <li><a href="/genre/action">Action</a></li>
+        <li><a href="/genre/fantasy">Fantasy</a></li>
+        <li><a href="/genre/romance">Romance</a></li>
+        <li><a href="/genre/comedy">Comedy</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-newsletter">
+      <h3>Join the Community</h3>
+      <form>
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Join</button>
+      </form>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Animaze — All Rights Reserved</p>
+  </div>
+</footer>
+
+
+    <!-- External JS -->
+    <script src="script.js"></script>
+  </body>
+</html>

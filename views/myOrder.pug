@@ -1,0 +1,98 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width,initial-scale=1")
+    title AniMerch — My Orders
+    meta(name="color-scheme" content="dark")
+    // fonts
+    link(href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet")
+    // css
+    link(rel="stylesheet" href="/css/myOrder.css")
+    link(rel="stylesheet" href="/css/base.css")
+  body
+    include _topbar
+    include _header
+
+    .am-layout(role="main")
+      //- SIDEBAR
+      aside.am-sidebar(aria-label="Account sidebar")
+        .am-user
+          img#sidebarAvatar(
+            src=(user && user.photo) ? user.photo : 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop'
+            alt="User avatar"
+          )
+          div
+            .who= (user && user.name) ? user.name : 'Anonymous'
+            .am-small Member since #{(user && user.memberSince) ? user.memberSince : '2025'}
+
+        nav.am-nav(aria-label="Account sections")
+          a(href="/me") Account settings
+          a(href="/orders" class="active") My orders
+          a(href="/reviews") My reviews
+          a(href="/billing") Billing
+          a(href="/addresses") Addresses
+          a(href="/security") Security
+
+      //- MAIN CONTENT
+      section.am-main(aria-labelledby="ordersTitle")
+        h1#ordersTitle(style="margin: 0 0 12px; font-size: 22px") My orders
+        .am-small(style="margin-bottom:14px") All your recent purchases & order activity
+
+        .orders-wrap
+          if orders && orders.length
+            each order in orders
+              - let statusClass = order && order.status === 'delivered' ? 'st-delivered' : (order && order.status === 'pending' ? 'st-processing' : (order && order.status === 'cancelled' ? 'st-cancel' : 'st-unknown'))
+              article.order-card(role="article" aria-label=`Order ${order && order.id ? order.id : ''}`)
+                .order-left
+                  .order-head
+                    .order-meta
+                      .order-id= order && order.id ? `Order #${order.id}` : 'Order #—'
+                      .order-date= order && order.createdAt ? `Placed on ${order.createdAt} • ${(order.products && order.products.length) ? order.products.length : 0} items` : 'Date unavailable'
+                    .status-pill(class=statusClass role="status")= order.status ? order.status.charAt(0).toUpperCase() + order.status.slice(1) : 'Unknown'
+
+                  .divider
+                  .order-items(aria-live="polite")
+                    if order.products && order.products.length
+                      each item in order.products
+                        .itm
+                          .thumb
+                            img(
+                              src=(item && item.product && item.product.coverImage) ? item.product.coverImage : '/images/placeholder.png',
+                              alt=item && item.product && item.product.title ? item.product.title : 'Product'
+                            )
+                          div
+                            .ttl= item && item.product && item.product.name ? item.product.name : 'Untitled product'
+                            .meta= `Qty ${item && item.quantity ? item.quantity : 0} • ₹${item.product && item.product.discountedPrice  ? item.product.discountedPrice * item.quantity : 0}`
+                    else
+                      .muted No items found
+
+                  .divider
+
+                  if order && order.trackingText
+                    .order-sub= order.trackingText
+                  else if order && order.note
+                    .order-sub= order.note
+
+                .order-right
+                  div
+                    .order-price= order && order.totalPrice ? `₹${order.totalPrice}` : '₹0'
+                  .order-actions
+                    button.btn-ghost(type="button" onclick=`viewDetails('${order && order.id ? order.id : ''}')`) View details
+                    if order && order.status && order.status.toLowerCase() === 'cancelled'
+                      button.btn-primary(type="button" onclick=`reorder('${order && order.id ? order.id : ''}')`) Re-order
+                    else
+                      button.btn-primary(type="button" onclick=`reorder('${order && order.id ? order.id : ''}')`) Buy again
+          else
+            .muted(style="padding:12px") No orders found
+
+    footer(style="max-width:1200px;margin:26px auto;padding:18px;color:var(--muted);text-align:center;font-size:13px")
+      | © #{new Date().getFullYear()} AniMerch — All rights reserved
+
+    script.
+      function viewDetails(orderId){
+        if(orderId) window.location.href = '/orders/' + encodeURIComponent(orderId);
+      }
+      function reorder(orderId){
+        if(orderId) alert('Re-order: ' + orderId);
+      }

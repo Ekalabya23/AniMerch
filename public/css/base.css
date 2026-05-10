@@ -1,0 +1,366 @@
+/* ===============================
+   THEME FALLBACKS (optional)
+   =============================== */
+:root {
+  --primary: #5c3aff;
+  --secondary: #ff3366;
+  --accent: #00f6ff;
+  --text: #f5f5f5;
+  --muted: #cccccc;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* ===============================
+   TOP BAR
+   =============================== */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  font-size: 14px;
+  color: var(--muted);
+  background: linear-gradient(
+    90deg,
+    rgba(92, 58, 255, 0.12),
+    rgba(0, 246, 255, 0.12)
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(92, 58, 255, 0.15);
+  color: #e7e0ff;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  animation: glow 2.6s ease-in-out infinite;
+}
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(92, 58, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(92, 58, 255, 0.45);
+  }
+}
+
+/* ===============================
+   HEADER
+   =============================== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  position: sticky;
+  top: 44px; /* sits below .topbar */
+  z-index: 19;
+  background: rgba(12, 12, 30, 0.75);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+.logo i {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: conic-gradient(
+    from 0deg,
+    var(--primary),
+    var(--accent),
+    var(--secondary),
+    var(--primary)
+  );
+  animation: spin 9s linear infinite;
+  display: inline-block;
+}
+.logo span {
+  font-size: 20px;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===============================
+   NAV (Categories)
+   =============================== */
+nav,
+.nav-cat {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.nav-btn {
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+  text-decoration: none;
+  transition: 0.2s transform, 0.2s color, 0.2s background;
+  background: rgba(255, 255, 255, 0.03);
+}
+.nav-btn:hover {
+  transform: translateY(-2px);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Show categories on desktop, hide on small screens */
+.nav-cat {
+  display: flex;
+}
+@media (max-width: 500px) {
+  .nav-cat {
+    display: none !important;
+  }
+}
+
+/* ===============================
+   TOP ACTIONS (Cart / Login / Logout / Profile)
+   =============================== */
+.top-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+/* Base action style */
+.top-actions .nav__el,
+.top-actions .nav__el:link,
+.top-actions .nav__el:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  font-family: inherit;
+}
+.top-actions .nav__el:hover,
+.top-actions .nav__el:active {
+  color: #fff;
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  box-shadow: 0 0 12px rgba(92, 58, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Logout gets accent emphasis */
+#navLogout {
+  background: rgba(255, 51, 102, 0.12);
+  border: 1px solid rgba(255, 51, 102, 0.35);
+  color: #ff3366;
+}
+#navLogout:hover {
+  background: linear-gradient(90deg, #ff3366, #ff6699);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255, 51, 102, 0.55);
+}
+
+/* Sign up CTA stays bold */
+.top-actions a.cta {
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  color: #fff !important;
+  box-shadow: 0 0 12px rgba(92, 58, 255, 0.45);
+  border: none;
+}
+.top-actions a.cta:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Profile link container */
+.top-actions .nav__el[href="/me"] {
+  padding: 6px 10px;
+  text-transform: none;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Avatar with neon gradient ring */
+.nav__user-img {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  padding: 2px; /* creates space for gradient */
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  box-shadow: 0 0 8px rgba(92, 58, 255, 0.5);
+}
+
+/* Legacy spacing rules kept (safe) */
+.nav__el:not(:last-child) {
+  margin-right: 0;
+}
+@media only screen and (max-width: 37.5em) {
+  .nav__el:not(:last-child) {
+    margin-right: 0;
+    margin-bottom: 1.2rem;
+  }
+}
+.nav__el:focus {
+  outline: none;
+}
+
+/* ===============================
+   CART BUTTON (matches avatar/CTA)
+   =============================== */
+.cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  transition: transform 0.2s ease, color 0.2s ease, background 0.25s ease,
+    box-shadow 0.25s ease;
+  text-decoration: none;
+}
+.cart i,
+.cart svg {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.cart:hover {
+  color: #fff;
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  box-shadow: 0 0 12px rgba(0, 246, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+/* Count badge */
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #ff3366;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 0 6px rgba(255, 51, 102, 0.8);
+  pointer-events: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.cart:hover .cart-count {
+  background: var(--accent);
+  transform: scale(1.08);
+}
+
+/* Small tweak when cart is just an icon (no text) */
+.cart.only-icon {
+  padding: 8px 10px;
+  width: 42px;
+  justify-content: center;
+}
+
+/* ===============================
+   ACCESSIBILITY FOCUS
+   =============================== */
+.top-actions .nav__el:focus-visible,
+.cart:focus-visible,
+.nav-btn:focus-visible,
+a.cta:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(0, 246, 255, 0.15);
+}
+
+.cart-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 6px;
+  stroke: currentColor;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media (max-width: 900px) {
+  header {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  .logo span {
+    font-size: 18px;
+  }
+  .nav-btn {
+    padding: 8px 12px;
+  }
+  .top-actions .nav__el {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .logo i {
+    width: 32px;
+    height: 32px;
+  }
+  .nav-btn {
+    font-size: 13px;
+  }
+  .top-actions {
+    gap: 10px;
+  }
+  .nav__user-img {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+@media (max-width: 500px) {
+  /* Categories hidden via rule above */
+  .top-actions .nav__el {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+  .cart.only-icon {
+    width: 38px;
+  }
+}

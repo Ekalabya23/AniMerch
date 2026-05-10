@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Animaze — Checkout</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #0c0c1e;
+        --panel: #121224;
+        --panel-2: #191927;
+        --muted: #bfbdd0;
+        --text: #f5f5f8;
+        --accent: #00f6ff;
+        --primary: #5c3aff;
+        --secondary: #ff3366;
+        --glass: rgba(255, 255, 255, 0.03);
+        --radius: 14px;
+        --shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        --maxwidth: 1200px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Outfit, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial;
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        background: radial-gradient(
+            900px 300px at 8% -8%,
+            rgba(92, 58, 255, 0.06),
+            transparent
+          ),
+          radial-gradient(
+            700px 250px at 110% 0%,
+            rgba(0, 246, 255, 0.03),
+            transparent
+          ),
+          var(--bg);
+        padding-bottom: 48px;
+      }
+
+      /* header */
+      .amz-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 24px;
+        font-size: 13px;
+        color: var(--muted);
+        background: linear-gradient(
+          90deg,
+          rgba(92, 58, 255, 0.03),
+          rgba(0, 246, 255, 0.02)
+        );
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        backdrop-filter: blur(6px);
+      }
+      .amz-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 28px;
+        background: rgba(12, 12, 30, 0.6);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .amz-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-family: Montserrat;
+      }
+      .amz-brand .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: conic-gradient(
+          from 0deg,
+          var(--primary),
+          var(--accent),
+          var(--secondary)
+        );
+        box-shadow: 0 8px 28px rgba(92, 58, 255, 0.12);
+      }
+
+      /* page container */
+      .amz-checkout-wrap {
+        max-width: var(--maxwidth);
+        margin: 26px auto;
+        padding: 0 18px;
+        z-index: 2;
+      }
+
+      /* layout */
+      .amz-checkout-grid {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 22px;
+        align-items: start;
+      }
+      @media (max-width: 1000px) {
+        .amz-checkout-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* left panel */
+      .amz-panel {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        border-radius: 16px;
+        padding: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: var(--shadow);
+      }
+      .amz-section-title {
+        font-weight: 800;
+        font-size: 18px;
+        margin: 0 0 12px 0;
+      }
+      .amz-sub {
+        color: var(--muted);
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+
+      /* address form */
+      .amz-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .amz-row {
+        display: flex;
+        gap: 10px;
+      }
+      .amz-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .amz-input,
+      .amz-select,
+      .amz-textarea {
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: transparent;
+        color: var(--text);
+        outline: none;
+      }
+      .amz-textarea {
+        min-height: 96px;
+        resize: vertical;
+        padding-top: 12px;
+      }
+
+      /* saved addresses list */
+      .amz-address-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .amz-address-card {
+        padding: 12px;
+        border-radius: 10px;
+        background: var(--panel-2);
+        border: 1px solid rgba(255, 255, 255, 0.02);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .amz-address-meta {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .amz-address-radio {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      /* payment */
+      .amz-payment-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .amz-pay-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: var(--panel-2);
+        cursor: pointer;
+      }
+      .amz-pay-card input {
+        width: 18px;
+        height: 18px;
+      }
+
+      /* right summary */
+      .amz-summary {
+        position: sticky;
+        top: 120px;
+        padding: 18px;
+        border-radius: 12px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .amz-summary .amz-line {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        color: var(--muted);
+      }
+      .amz-summary .amz-total {
+        font-weight: 900;
+        font-size: 20px;
+        color: var(--accent);
+      }
+
+      .amz-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 12px 0;
+      }
+
+      .amz-cart-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 10px;
+        border-radius: 10px;
+        background: var(--panel-2);
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .amz-cart-thumb {
+        width: 72px;
+        height: 72px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex: 0 0 72px;
+        background: #0e0e16;
+      }
+      .amz-cart-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .amz-cart-title {
+        font-weight: 800;
+      }
+      .amz-cart-meta {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .amz-price {
+        font-weight: 900;
+        color: var(--accent);
+      }
+
+      .amz-checkout-cta {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .amz-btn {
+        padding: 12px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        font-weight: 800;
+      }
+      .amz-btn-primary {
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        color: #fff;
+        box-shadow: 0 18px 48px rgba(92, 58, 255, 0.12);
+      }
+      .amz-btn-ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+      }
+
+      /* coupon */
+      .amz-coupon {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .amz-coupon .amz-input {
+        flex: 1;
+      }
+
+      /* small helpers */
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .divider {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        margin: 12px 0;
+        border-radius: 2px;
+      }
+
+      /* responsive tweaks */
+      @media (max-width: 520px) {
+        .amz-row {
+          flex-direction: column;
+        }
+        .amz-cart-thumb {
+          width: 64px;
+          height: 64px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="amz-topbar">
+      <div class="amz-top-left">
+        <span
+          style="
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 12px;
+          "
+          >CHECKOUT</span
+        >
+      </div>
+      <div class="muted">Secure checkout • SSL protected</div>
+      <div class="muted">INR (₹)</div>
+    </div>
+
+    <header class="amz-header" role="banner">
+      <div class="amz-brand">
+        <span class="logo" aria-hidden></span>
+        <span>ANIMAZE</span>
+      </div>
+      <div class="amz-actions">
+        <nav aria-label="Primary" style="display: flex; gap: 12px">
+          <a href="#" style="color: var(--muted); text-decoration: none"
+            >Shop</a
+          >
+          <a href="#" style="color: var(--muted); text-decoration: none"
+            >Orders</a
+          >
+          <a href="#" style="color: var(--muted); text-decoration: none"
+            >Account</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="amz-checkout-wrap" role="main">
+      <div class="amz-checkout-grid">
+        <!-- LEFT COLUMN -->
+        <section class="amz-panel" aria-labelledby="shippingTitle">
+          <h3 class="amz-section-title" id="shippingTitle">Shipping details</h3>
+          <div class="amz-sub">Choose a saved address or enter a new one</div>
+
+          <!-- Saved addresses (server-rendered) -->
+          <div class="amz-address-list" id="amz-address-list">
+            <!-- Example server-rendered address card -->
+            <label class="amz-address-card">
+              <div class="amz-address-radio">
+                <input
+                  type="radio"
+                  name="shippingAddress"
+                  value="addr_1"
+                  checked
+                />
+                <div>
+                  <strong>Rahaul Kumar</strong>
+                  <div class="amz-address-meta">
+                    45/12, Sector 8, Salt Lake, Kolkata, West Bengal, 700064
+                  </div>
+                  <div class="muted">Phone: +91 98765 43210</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px">
+                <button class="amz-btn amz-btn-ghost" data-edit-addr="addr_1">
+                  Edit
+                </button>
+              </div>
+            </label>
+
+            <!-- Another saved address -->
+            <label class="amz-address-card">
+              <div class="amz-address-radio">
+                <input type="radio" name="shippingAddress" value="addr_2" />
+                <div>
+                  <strong>Anita Roy</strong>
+                  <div class="amz-address-meta">
+                    A-22, MG Road, Pune, Maharashtra, 411001
+                  </div>
+                  <div class="muted">Phone: +91 91234 56789</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px">
+                <button class="amz-btn amz-btn-ghost" data-edit-addr="addr_2">
+                  Edit
+                </button>
+              </div>
+            </label>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- New address form (server can prefill / show on demand) -->
+          <h4 class="amz-section-title" style="font-size: 16px">
+            Add new address
+          </h4>
+          <form id="amz-address-form" class="amz-form" onsubmit="return false;">
+            <div class="amz-row">
+              <div class="amz-field" style="flex: 1">
+                <label class="muted">Full name</label>
+                <input
+                  class="amz-input"
+                  name="fullName"
+                  placeholder="Full name"
+                  value=""
+                />
+              </div>
+              <div class="amz-field" style="flex: 1">
+                <label class="muted">Phone</label>
+                <input
+                  class="amz-input"
+                  name="phone"
+                  placeholder="+91 9XXXXXXXXX"
+                  value=""
+                />
+              </div>
+            </div>
+
+            <div class="amz-field">
+              <label class="muted">Address line</label>
+              <input
+                class="amz-input"
+                name="addrLine"
+                placeholder="Flat / Building / Street"
+              />
+            </div>
+
+            <div class="amz-row">
+              <div class="amz-field" style="flex: 1">
+                <label class="muted">City</label>
+                <input class="amz-input" name="city" placeholder="City" />
+              </div>
+              <div class="amz-field" style="flex: 1">
+                <label class="muted">State / Province</label>
+                <input class="amz-input" name="state" placeholder="State" />
+              </div>
+            </div>
+
+            <div class="amz-row">
+              <div class="amz-field" style="flex: 1">
+                <label class="muted">Postal code</label>
+                <input class="amz-input" name="zip" placeholder="700064" />
+              </div>
+              <div class="amz-field" style="flex: 1">
+                <label class="muted">Country</label>
+                <select class="amz-select" name="country">
+                  <option value="IN" selected>India</option>
+                  <option value="JP">Japan</option>
+                  <option value="US">United States</option>
+                </select>
+              </div>
+            </div>
+
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                margin-top: 8px;
+              "
+            >
+              <button id="amz-save-addr" class="amz-btn amz-btn-ghost">
+                Save address
+              </button>
+              <span class="muted">or choose existing</span>
+            </div>
+          </form>
+
+          <div class="divider"></div>
+
+          <!-- Payment section -->
+          <h3 class="amz-section-title">Payment</h3>
+          <div class="amz-sub">Select payment method</div>
+          <div class="amz-payment-methods" id="amz-payments">
+            <label class="amz-pay-card">
+              <input type="radio" name="payMethod" value="cod" />
+              <div>
+                <strong>Cash on delivery</strong>
+                <div class="muted">Pay when you receive</div>
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <!-- RIGHT: order summary -->
+        <aside class="amz-summary amz-panel" aria-label="Order summary">
+          <h3 class="amz-section-title">Order summary</h3>
+          <div class="amz-rows" id="amz-cart-rows">
+            <!-- server should render rows or you can replicate structure here -->
+            <div class="amz-cart-row" data-price="2799" data-qty="1">
+              <div class="amz-cart-thumb">
+                <img
+                  src="https://resize.cdn.otakumode.com/ex/700.1049/shop/product/611afd0f9710407696f94fc9a81233a4.jpg.webp"
+                  alt=""
+                />
+              </div>
+              <div style="flex: 1">
+                <div class="amz-cart-title">
+                  Hyperdimension Neptunia VII — Next Green
+                </div>
+                <div class="amz-cart-meta">Vertex • Preorder</div>
+              </div>
+              <div style="text-align: right">
+                <div class="amz-price">₹2,799</div>
+                <div class="muted">x1</div>
+              </div>
+            </div>
+
+            <div class="amz-cart-row" data-price="2499" data-qty="1">
+              <div class="amz-cart-thumb">
+                <img
+                  src="https://resize.cdn.otakumode.com/ex/700.1050/shop/product/592de6c8880940e5951cf73b66707c3b.jpg.webp"
+                  alt=""
+                />
+              </div>
+              <div style="flex: 1">
+                <div class="amz-cart-title">Kill la Kill — Ryuko Matoi</div>
+                <div class="amz-cart-meta">Good Smile Arts SH</div>
+              </div>
+              <div style="text-align: right">
+                <div class="amz-price">₹2,499</div>
+                <div class="muted">x1</div>
+              </div>
+            </div>
+
+            <div class="amz-cart-row" data-price="799" data-qty="1">
+              <div class="amz-cart-thumb">
+                <img
+                  src="https://www.comicsense.store/wp-content/uploads/2025/08/Haikyu-Oversized-Jersey_Listing-Imdfages_v2-1_comicsense-300x400.jpg"
+                  alt=""
+                />
+              </div>
+              <div style="flex: 1">
+                <div class="amz-cart-title">Haikyu Oversized Jersey</div>
+                <div class="amz-cart-meta">Apparel • Unisex</div>
+              </div>
+              <div style="text-align: right">
+                <div class="amz-price">₹799</div>
+                <div class="muted">x1</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="amz-line">
+            <span class="muted">Subtotal</span><span id="amz-sub">—</span>
+          </div>
+          <div class="amz-line">
+            <span class="muted">Shipping</span><span id="amz-ship">₹99</span>
+          </div>
+          <div class="amz-line">
+            <span class="muted">Tax (est.)</span><span id="amz-tax">—</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="amz-line total">
+            <span class="amz-total">Total</span><span id="amz-total">—</span>
+          </div>
+
+          <div class="amz-coupon">
+            <input
+              class="amz-input"
+              id="amz-coupon"
+              placeholder="Coupon code (optional)"
+            />
+            <button id="amz-coupon-btn" class="amz-btn amz-btn-ghost">
+              Apply
+            </button>
+          </div>
+
+          <div class="amz-checkout-cta">
+            <button id="amz-place-order" class="amz-btn amz-btn-primary">
+              Place order — Secure Checkout
+            </button>
+            <button id="amz-save-later" class="amz-btn amz-btn-ghost">
+              Save cart for later
+            </button>
+          </div>
+
+          <div style="margin-top: 10px" class="muted">
+            By placing the order you agree to our
+            <a href="#" style="color: var(--accent)">Terms & Privacy</a>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer style="color: var(--muted); text-align: center; padding: 28px 18px">
+      © 2025 Animaze — All rights reserved
+    </footer>
+
+    <script>
+      (function () {
+        const formatINR = (n) => "₹" + Number(n).toLocaleString("en-IN");
+
+        // calculate totals from DOM (server should render data-price and data-qty)
+        function calcTotals() {
+          const rows = Array.from(document.querySelectorAll(".amz-cart-row"));
+          let subtotal = 0;
+          let qty = 0;
+          rows.forEach((r) => {
+            const price = Number(r.dataset.price) || 0;
+            const q = Number(r.dataset.qty) || 1;
+            subtotal += price * q;
+            qty += q;
+          });
+          const shipping = subtotal > 0 ? 99 : 0;
+          const tax = Math.round(subtotal * 0.05);
+          const total = subtotal + shipping + tax;
+
+          document.getElementById("amz-sub").textContent = formatINR(subtotal);
+          document.getElementById("amz-ship").textContent = formatINR(shipping);
+          document.getElementById("amz-tax").textContent = formatINR(tax);
+          document.getElementById("amz-total").textContent = formatINR(total);
+        }
+
+        // initial totals
+        calcTotals();
+
+        // payment method toggle
+        const payRadios = document.querySelectorAll('input[name="payMethod"]');
+        const cardDetails = document.getElementById("amz-card-details");
+        function toggleCard() {
+          const selected = document.querySelector(
+            'input[name="payMethod"]:checked'
+          ).value;
+          cardDetails.style.display = selected === "card" ? "block" : "none";
+        }
+        payRadios.forEach((r) => r.addEventListener("change", toggleCard));
+        toggleCard();
+
+        // coupon demo
+        document
+          .getElementById("amz-coupon-btn")
+          .addEventListener("click", () => {
+            const code = document.getElementById("amz-coupon").value.trim();
+            if (!code) return alert("Enter coupon");
+            if (code.toUpperCase() === "ANIM20") {
+              // demonstrate discount: 20% off subtotal
+              const subEl = document.getElementById("amz-sub");
+              const subtotal =
+                Number(subEl.textContent.replace(/[^\d]/g, "")) || 0;
+              const discount = Math.round(subtotal * 0.2);
+              alert("Coupon applied: " + formatINR(discount) + " off (demo)");
+              // Note: in real app send coupon to server and recalc totals server-side
+            } else {
+              alert("Invalid coupon (demo). Try ANIM20");
+            }
+          });
+
+        // save address mock
+        document
+          .getElementById("amz-save-addr")
+          .addEventListener("click", () => {
+            alert(
+              "Address saved (demo). In production, POST address to server and refresh saved list."
+            );
+          });
+
+        // place order (demo)
+        document
+          .getElementById("amz-place-order")
+          .addEventListener("click", () => {
+            // collect selected shipping address and payment method
+            const shipping = document.querySelector(
+              'input[name="shippingAddress"]:checked'
+            );
+            const pay = document.querySelector(
+              'input[name="payMethod"]:checked'
+            );
+            if (!shipping) return alert("Select a shipping address");
+            if (!pay) return alert("Select a payment method");
+
+            // Build payload (demo)
+            const payload = {
+              shippingAddressId: shipping.value,
+              paymentMethod: pay.value,
+              items: Array.from(document.querySelectorAll(".amz-cart-row")).map(
+                (r) => ({
+                  // these should match server ids in SSR output; demo uses title
+                  title: r.querySelector(".amz-cart-title").textContent,
+                  price: Number(r.dataset.price),
+                  qty: Number(r.dataset.qty),
+                })
+              ),
+            };
+
+            console.log("PLACE ORDER", payload);
+            alert(
+              "Order placed (demo). Integrate with backend to submit order and create payment session."
+            );
+          });
+      })();
+    </script>
+  </body>
+</html>

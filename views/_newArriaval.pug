@@ -1,0 +1,22 @@
+section.section-newArrival
+  .bg-layer(aria-hidden='true')
+    .blob.a
+    .blob.b
+  .wrap
+    h1.titel-newArrival New arrivals
+    section.anim-carousel(aria-roledescription='carousel', aria-label='New arrivals')
+      .anim-nav(aria-hidden='false')
+        button#animPrev(aria-label='Previous') ‹
+        button#animNext(aria-label='Next') ›
+      .anim-viewport#animViewport(tabindex='0', aria-live='polite')
+        .anim-row#animRow(role='list')
+          - const mid = Math.floor(newArrivals.length / 2)
+          each product, idx in newArrivals
+            article.anim-item(data-idx=`${idx}`, data-center=`${idx === mid} ? 'true' : ''`)
+              .art
+                img(src=`${product.coverImage}`, alt=`${product.name}`)
+              .meta
+                .title= `${product.name}`
+                .sub= `${product.category}`
+              a.anim-shop(href=`/product/${product.slug}`) SHOP NOW
+  script(src="/js/newArriaval.js")

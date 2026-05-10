@@ -1,0 +1,425 @@
+/* Theme variables (kept consistent with your theme) */
+:root {
+  --bg: #0c0c1e;
+  --panel: #121224;
+  --panel-2: #191927;
+  --muted: #bfbdd0;
+  --text: #f5f5f8;
+  --accent: #00f6ff;
+  --primary: #5c3aff;
+  --secondary: #ff3366;
+  --glass: rgba(255, 255, 255, 0.03);
+  --radius: 14px;
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  --maxwidth: 1300px;
+}
+
+/* Reset */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Outfit, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+    Arial;
+}
+body {
+  background: radial-gradient(
+      900px 300px at 8% -8%,
+      rgba(92, 58, 255, 0.06),
+      transparent
+    ),
+    radial-gradient(
+      700px 250px at 110% 0%,
+      rgba(0, 246, 255, 0.03),
+      transparent
+    ),
+    var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Topbar & header (simple - keeps theme) */
+.amz-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 24px;
+  font-size: 13px;
+  color: var(--muted);
+  background: linear-gradient(
+    90deg,
+    rgba(92, 58, 255, 0.03),
+    rgba(0, 246, 255, 0.02)
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  backdrop-filter: blur(6px);
+}
+.amz-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  background: rgba(12, 12, 30, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.amz-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  font-family: Montserrat;
+}
+.amz-brand .logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: conic-gradient(
+    from 0deg,
+    var(--primary),
+    var(--accent),
+    var(--secondary)
+  );
+  box-shadow: 0 8px 28px rgba(92, 58, 255, 0.12);
+}
+.amz-header .amz-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+/* Page wrapper full-bleed content */
+.amz-container {
+  width: 100%;
+  max-width: var(--maxwidth);
+  margin: 26px auto;
+  padding: 0 18px;
+}
+
+/* Cart layout - full width look (cards sit inside centered container) */
+.amz-cart-wrap {
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0.005)
+  );
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.amz-cart-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 22px;
+  align-items: start;
+}
+
+/* LEFT: items list (full-width inside left column) */
+.amz-items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.amz-cart-legend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--panel-2);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+.amz-cart-legend h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.amz-cart-legend .amz-count {
+  color: var(--muted);
+}
+
+/* each row */
+.amz-item {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0.005)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  align-items: center;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.amz-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 70px rgba(92, 58, 255, 0.08);
+}
+.amz-item-thumb {
+  flex: 0 0 120px;
+  height: 120px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0e0e16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+.amz-item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.amz-item-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.amz-item-title {
+  font-weight: 800;
+  font-size: 16px;
+  margin: 0;
+}
+.amz-item-sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+.amz-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+/* price + qty area */
+.amz-price {
+  font-weight: 900;
+  color: var(--accent);
+  font-size: 16px;
+}
+.amz-oldprice {
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: line-through;
+  margin-left: 8px;
+}
+.amz-qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel);
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+.amz-qty button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.amz-qty input {
+  width: 54px;
+  padding: 6px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  text-align: center;
+  font-weight: 700;
+}
+
+.amz-remove {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* Right side: summary */
+.amz-summary {
+  position: sticky;
+  top: 120px;
+  padding: 18px;
+  border-radius: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.01),
+    rgba(255, 255, 255, 0.005)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+.amz-summary h3 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+}
+.amz-summary .line {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: var(--muted);
+}
+.amz-summary .total {
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--accent);
+}
+.amz-checkout {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.amz-checkout button {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  color: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 16px 40px rgba(92, 58, 255, 0.12);
+}
+.amz-checkout .muted-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Addresses / quick actions inside summary */
+.amz-address {
+  background: var(--panel-2);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  font-size: 14px;
+  color: var(--muted);
+}
+.amz-address strong {
+  color: var(--text);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Coupon input */
+.amz-coupon {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.amz-coupon input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: transparent;
+  color: var(--text);
+}
+.amz-coupon button {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #031016;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Empty cart */
+/* ------------- Address list ------------- */
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.address-card {
+  background: var(--panel);
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+.address-card .addr-body {
+  font-size: 14px;
+  color: var(--muted);
+}
+.address-card .addr-actions {
+  display: flex;
+  gap: 8px;
+}
+.chip {
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* footer small */
+.amz-footer-note {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* responsive */
+@media (max-width: 1000px) {
+  .amz-cart-grid {
+    grid-template-columns: 1fr;
+    display: block;
+  }
+  .amz-summary {
+    position: relative;
+    top: auto;
+    margin-top: 12px;
+  }
+  .amz-item-thumb {
+    flex: 0 0 110px;
+    height: 110px;
+  }
+}
+
+@media (max-width: 520px) {
+  .amz-item {
+    flex-direction: row;
+    gap: 10px;
+    padding: 12px;
+  }
+  .amz-item-thumb {
+    flex: 0 0 90px;
+    height: 90px;
+  }
+  .amz-qty input {
+    width: 46px;
+  }
+  .amz-container {
+    padding: 0 10px;
+  }
+}

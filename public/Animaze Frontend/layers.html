@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Animaze — Popular Strip (Cyber Neon)</title>
+    <style>
+      :root {
+        --bg: #0c0c1e;
+        --panel: #0b0b0f;
+        --muted: #bdbbd1;
+        --text: #f5f5f7;
+        --primary: #5c3aff;
+        --secondary: #ff3366;
+        --accent: #00f6ff;
+        --sep: #070707; /* separator color between cards */
+        --radius: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      .section-animae {
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          Helvetica, Arial;
+        background: radial-gradient(
+            900px 300px at 6% -10%,
+            rgba(92, 58, 255, 0.06),
+            transparent
+          ),
+          radial-gradient(
+            700px 250px at 110% 0%,
+            rgba(0, 246, 255, 0.03),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+      }
+
+      /* moving background blobs (subtle depth) */
+      .bg-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .bg-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.2;
+        mix-blend-mode: screen;
+      }
+      .b1 {
+        left: -8%;
+        top: -8%;
+        width: 520px;
+        height: 520px;
+        background: linear-gradient(
+          135deg,
+          rgba(92, 58, 255, 0.95),
+          rgba(0, 246, 255, 0.55)
+        );
+        animation: b1 16s ease-in-out infinite;
+      }
+      .b2 {
+        right: -12%;
+        bottom: -12%;
+        width: 620px;
+        height: 620px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 51, 102, 0.85),
+          rgba(92, 58, 255, 0.36)
+        );
+        animation: b2 18s ease-in-out infinite;
+      }
+      @keyframes b1 {
+        0% {
+          transform: translate3d(0, 0, 0);
+        }
+        50% {
+          transform: translate3d(36px, 22px, 0);
+        }
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+      @keyframes b2 {
+        0% {
+          transform: translate3d(0, 0, 0);
+        }
+        50% {
+          transform: translate3d(-36px, -26px, 0);
+        }
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      /* page content wrapper */
+      .wrap {
+        position: relative;
+        z-index: 2;
+        max-width: 1600px;
+        margin: 28px auto;
+        padding: 0 12px;
+      }
+
+      /* heading */
+      .hero-title {
+        font-size: 34px;
+        font-weight: 900;
+        margin: 8px 6px;
+        letter-spacing: -0.02em;
+      }
+      .hero-sub {
+        color: var(--muted);
+        margin: 0 6px 18px 6px;
+      }
+
+      /* the strip container with black separators */
+      .strip {
+        background: var(--sep); /* separators show through gap */
+        padding: 18px;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+      }
+
+      /* horizontal row */
+      .row {
+        display: flex;
+        gap: 20px;
+        align-items: stretch;
+        /* allow horizontal scroll on small screens */
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding: 0 10px;
+      }
+      .row::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* card style */
+      .card {
+        flex: 0 0 18%; /* base size */
+        min-width: 180px;
+        max-width: 420px;
+        height: 720px; /* tall vertical cards like your image */
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        transition: transform 0.36s cubic-bezier(0.2, 0.9, 0.3, 1),
+          flex 0.36s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.36s;
+        background: #0f0f14;
+        border: 8px solid var(--sep); /* thick black separator look (inner border) */
+      }
+
+      /* center card appears larger by default */
+      .card.center {
+        flex: 0 0 32%;
+        transform: translateY(-6px) scale(1.02);
+        box-shadow: 0 40px 100px rgba(92, 58, 255, 0.18);
+      }
+
+      /* image area */
+      .art {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        overflow: hidden;
+      }
+      .art img.bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.02);
+        filter: grayscale(94%) brightness(0.7) contrast(0.95);
+        transition: transform 0.9s ease, filter 0.45s ease;
+        will-change: transform;
+      }
+      /* colored logo centered */
+      .logo {
+        position: absolute;
+        z-index: 2;
+        left: 50%;
+        top: 46%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        width: 50%;
+        max-width: 280px;
+        opacity: 0.98;
+        filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.6));
+        transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1),
+          opacity 0.35s;
+      }
+
+      /* bottom overlay text area */
+      .meta {
+        position: relative;
+        z-index: 3;
+        padding: 26px 28px;
+        background: linear-gradient(
+          180deg,
+          rgba(12, 12, 22, 0),
+          rgba(9, 8, 14, 0.55)
+        );
+        backdrop-filter: blur(6px);
+      }
+      .meta .title {
+        font-weight: 900;
+        font-size: 22px;
+        margin: 0;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      }
+      .meta .tag {
+        color: var(--muted);
+        margin-top: 6px;
+        font-size: 13px;
+      }
+
+      /* Shop Now popup (hidden until hover/focus) */
+      .shop-now {
+        position: absolute;
+        right: 10px;
+        bottom: 28px;
+        z-index: 4;
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 900;
+        letter-spacing: 0.02em;
+        box-shadow: 0 28px 80px rgba(92, 58, 255, 0.16);
+        transform: translateY(12px);
+        opacity: 0;
+        transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.3, 1),
+          opacity 0.28s;
+        pointer-events: none;
+      }
+      .card:hover .shop-now,
+      .card:focus-within .shop-now {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* hover effect: enlarge hovered card, shrink others */
+      .row:hover .card {
+        transform: translateY(0) scale(0.96);
+        opacity: 0.86;
+      }
+      .row .card:hover {
+        transform: translateY(-16px) scale(1.06);
+        flex: 0 0 40%;
+        opacity: 1;
+        box-shadow: 0 58px 120px rgba(92, 58, 255, 0.22);
+      }
+      .row .card:hover img.bg {
+        transform: scale(1.12);
+        filter: grayscale(30%) brightness(0.95) saturate(1.12);
+      }
+      .row .card:hover .logo {
+        transform: translate(-50%, -50%) scale(1.05);
+        opacity: 1;
+      }
+
+      /* keyboard focus */
+      .card:focus {
+        outline: 3px solid rgba(92, 58, 255, 0.12);
+        transform: translateY(-12px) scale(1.04);
+        box-shadow: 0 40px 90px rgba(92, 58, 255, 0.18);
+      }
+      .card:focus img.bg {
+        transform: scale(1.08);
+        filter: grayscale(40%) brightness(0.95) saturate(1.08);
+      }
+
+      /* responsiveness */
+      @media (max-width: 1200px) {
+        .card {
+          height: 640px;
+        }
+        .card.center {
+          flex: 0 0 40%;
+        }
+      }
+      @media (max-width: 880px) {
+        .row {
+          gap: 12px;
+        }
+        .card {
+          min-width: 48%;
+          flex: 0 0 48%;
+          height: 520px;
+          border: 6px solid var(--sep);
+        }
+        .card.center {
+          flex: 0 0 70%;
+        }
+        .logo {
+          width: 44%;
+        }
+      }
+      @media (max-width: 520px) {
+        .wrap {
+          padding: 0 8px;
+        }
+        .card {
+          min-width: 80%;
+          height: 480px;
+          border: 5px solid var(--sep);
+        }
+        .card.center {
+          flex: 0 0 95%;
+        }
+        .logo {
+          width: 52%;
+        }
+      }
+    </style>
+  </head>
+  <section class="section-animae">
+    <div class="bg-layer" aria-hidden>
+      <div class="bg-blob b1"></div>
+      <div class="bg-blob b2"></div>
+    </div>
+
+    <div class="wrap">
+      <div class="hero-title">Shop merch by anime</div>
+      <div class="hero-sub">
+        Hover a poster to preview — click to open product
+      </div>
+
+      <div class="strip" role="region" aria-label="Popular anime strip">
+        <div class="row" id="row" tabindex="0">
+          <!-- Card 1 -->
+          <article
+            class="card"
+            tabindex="0"
+            data-title="Dragon Ball"
+            data-img="https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1600&auto=format&fit=crop"
+          >
+            <div class="art">
+              <img
+                class="bg"
+                src="https://m.media-amazon.com/images/I/91EU9HyHvLL._UF1000,1000_QL80_.jpg"
+                alt="Dragon Ball art"
+              />
+            </div>
+            <div class="meta">
+              <div class="title">Dragon Ball</div>
+              <div class="tag">Collectors • Figures</div>
+            </div>
+            <div class="shop-now" aria-hidden>Shop Now</div>
+          </article>
+
+          <!-- Card 2 -->
+          <article
+            class="card"
+            tabindex="0"
+            data-title="One Piece"
+            data-img="https://i.pinimg.com/736x/58/27/67/58276760ec13f352fc8f77a9f2c2da3f.jpg"
+          >
+            <div class="art">
+              <img
+                class="bg"
+                src="https://i.pinimg.com/736x/58/27/67/58276760ec13f352fc8f77a9f2c2da3f.jpg"
+                alt="One Piece art"
+              />
+            </div>
+            <div class="meta">
+              <div class="title">One Piece</div>
+              <div class="tag">Luffy • Streetwear</div>
+            </div>
+            <div class="shop-now" aria-hidden>Shop Now</div>
+          </article>
+
+          <!-- Card 3 (center by default) -->
+          <article
+            class="card center"
+            tabindex="0"
+            data-title="Demon Slayer"
+            data-img="https://images.unsplash.com/photo-1618354691438-be0ecf671c7f?q=80&w=1600&auto=format&fit=crop"
+          >
+            <div class="art">
+              <img
+                class="bg"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx4WiTvCIjnfkQSzU07H2epdXwuTMq_FMW-A&s"
+                alt="Demon Slayer art"
+              />
+            </div>
+            <div class="meta">
+              <div class="title">Demon Slayer</div>
+              <div class="tag">Kimetsu no Yaiba • Limited</div>
+            </div>
+            <div class="shop-now" aria-hidden>Shop Now</div>
+          </article>
+
+          <!-- Card 4 -->
+          <article
+            class="card"
+            tabindex="0"
+            data-title="Naruto"
+            data-img="https://images.unsplash.com/photo-1606117331085-5760fe8c9b80?q=80&w=1600&auto=format&fit=crop"
+          >
+            <div class="art">
+              <img
+                class="bg"
+                src="https://images.unsplash.com/photo-1606117331085-5760fe8c9b80?q=80&w=1600&auto=format&fit=crop"
+                alt="Naruto art"
+              />
+              <img
+                class="logo"
+                src="https://i.imgur.com/8Xw4f6v.png"
+                alt="Naruto logo (placeholder)"
+              />
+            </div>
+            <div class="meta">
+              <div class="title">Naruto</div>
+              <div class="tag">Streetwear • Tees</div>
+            </div>
+            <div class="shop-now" aria-hidden>Shop Now</div>
+          </article>
+
+          <!-- Card 5 -->
+          <article
+            class="card"
+            tabindex="0"
+            data-title="Jujutsu Kaisen"
+            data-img="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop"
+          >
+            <div class="art">
+              <img
+                class="bg"
+                src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop"
+                alt="Jujutsu Kaisen art"
+              />
+              <img
+                class="logo"
+                src="https://i.imgur.com/CzY2wQF.png"
+                alt="Jujutsu Kaisen logo (placeholder)"
+              />
+            </div>
+            <div class="meta">
+              <div class="title">Jujutsu Kaisen</div>
+              <div class="tag">Collectors • Posters</div>
+            </div>
+            <div class="shop-now" aria-hidden>Shop Now</div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Interactive behavior:
+      // - clicking a card centers it (adds .center to the clicked card)
+      // - hover/focus animations are CSS-driven; JS moves center on click
+      const row = document.getElementById("row");
+      const cards = Array.from(document.querySelectorAll(".card"));
+
+      // helper to set center index
+      function setCenter(idx) {
+        cards.forEach((c, i) => c.classList.toggle("center", i === idx));
+        // scroll the row so the center is roughly in view
+        const card = cards[idx];
+        if (card) {
+          const rect = card.getBoundingClientRect();
+          const rowRect = row.getBoundingClientRect();
+          // center card horizontally in the row viewport
+          const offset =
+            (rect.left + rect.right) / 2 - (rowRect.left + rowRect.right) / 2;
+          row.scrollBy({ left: offset, behavior: "smooth" });
+          // focus the card for keyboard users
+          card.focus({ preventScroll: true });
+        }
+      }
+
+      // make the middle card centered initially (index 2)
+      const initial = Math.floor(cards.length / 2);
+      setCenter(initial);
+
+      // click centers card and triggers a demo action
+      cards.forEach((card, i) => {
+        card.addEventListener("click", (e) => {
+          setCenter(i);
+          // small demo: open a product detail or navigate. Replace with real link:
+          // location.href = '/product/' + (card.dataset.slug || encodeURIComponent(card.dataset.title.toLowerCase()));
+        });
+
+        // keyboard: Enter opens center action
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setCenter(i);
+          }
+        });
+
+        // on hover, show shop now popup handled by CSS
+        // but also highlight with JS if you want fine control (not necessary)
+      });
+
+      // optional: use arrow keys to move center
+      document.addEventListener("keydown", (e) => {
+        const idx = cards.findIndex((c) => c.classList.contains("center"));
+        if (e.key === "ArrowLeft") setCenter(Math.max(0, idx - 1));
+        if (e.key === "ArrowRight")
+          setCenter(Math.min(cards.length - 1, idx + 1));
+      });
+    </script>
+  </section>
+</html>

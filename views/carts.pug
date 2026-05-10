@@ -1,0 +1,96 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title AniMerch | Cart
+    link(rel="stylesheet", href="/css/carts.css")
+    link(rel="stylesheet", href="/css/base.css")
+    
+
+
+  body
+    include _topbar
+    include _header
+
+    //- Main
+    main.amz-container(role="main")
+      .amz-cart-wrap(role="region", aria-label="Your cart")
+        .amz-cart-grid
+          input#userName(type="hidden" value=`${user.id}`)
+          input#userEmail(type="hidden" value=`${user.email}`)
+          div
+            .amz-items
+              .amz-cart-legend
+                h2 Your Cart
+                .amz-count#amz-count= `${cart.items.length} Items`
+
+              each item in cart.items
+                .amz-item(data-id=`${item.product._id}`, data-price=`${item.product.discountedPrice * item.quantity}`)
+                  .amz-item-thumb(aria-hidden="true")
+                    img(src=`${item.product.coverImage}`, alt=`${item.product.name}`)
+                  .amz-item-body
+                    div(style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;")
+                      div
+                        .amz-item-title= `${item.product.name}`
+                        .amz-item-sub= `${item.product.category} • ${item.product.anime}`
+                      div(style="text-align: right")
+                        .amz-price= `₹ ${item.product.discountedPrice * item.quantity}`
+                        .amz-oldprice=  `₹ ${item.product.price * item.quantity}`
+                    .amz-item-meta
+                      .amz-qty(role="group", aria-label="Quantity")
+                        button.amz-qty-dec(aria-label="Decrease") −
+                        input.amz-qty-input(type="number", min="1", value=`${item.quantity}`, aria-label="Quantity of Hyperdimension")
+                        button.amz-qty-inc(aria-label="Increase") +
+                      button.amz-remove(aria-label="Remove item") Remove
+
+             
+              .amz-footer-note(style="margin-top: 12px")
+                | Items in your cart are reserved for 60 minutes. Taxes & shipping calculated at checkout.
+
+         
+          aside.amz-summary(aria-label="Order summary")
+            h3 Order summary
+            .line
+              span Subtotal
+              span#amz-subtotal= `₹ ${totalPrice}`
+            .line
+              span Shipping
+              span#amz-shipping= `₹ ${shipping}`
+            .line
+              span Estimated tax
+              span#amz-tax ₹0
+            div(style="height: 1px; background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent); margin: 12px 0; border-radius: 2px;")
+            .line.total
+              span Total
+              span#amz-total= `₹ ${totalPrice + shipping}`
+            .amz-checkout
+              button#amz-checkout-btn Pay Online
+              button#amz-cashOn.muted-btn(onclick="alert('Continue shopping')") Cash On Dilvery 
+              .amz-address-list#amz-address-list
+                each address, id in addresses
+                  .address-card(data-address-id=`${id}`)
+                    input(type="radio" name="shippingAddress" value=`${address._id}` checked)
+                    div
+                      input.addressId(type="hidden" value=`${address._id}`)
+                      div(style="font-weight: 800") Home
+                      .addr-body
+                        | #{address.houseNumber}, #{address.street}
+                        br
+                        | #{address.city}, #{address.district} #{address.pin}
+                        br
+                        | #{address.state}
+                    .addr-actions
+                      button.chip Edit
+                      button.chip.elRemove Remove    
+              .amz-coupon
+                input#amz-coupon-input(type="text", placeholder="Have a coupon?")
+                button#amz-apply-coupon Apply
+            input(type="hidden" id="cartId" value=`${cart._id}`)
+            input(type="hidden" id="priceId" value=`${totalPrice + shipping}`)
+
+
+ 
+    footer(style="color: var(--muted); text-align: center; padding: 28px 18px") © 2025 AniMerch — All rights reserved
+    script(defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    script(src='/js/carts.js')

@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Animaze — Sign Up</title>
+    <style>
+      :root {
+        --bg: #0c0c1e;
+        --panel: #141426;
+        --muted: #bdbbd1;
+        --text: #f5f5f7;
+        --primary: #5c3aff;
+        --secondary: #ff3366;
+        --accent: #00f6ff;
+        --radius: 14px;
+        --glass: rgba(255, 255, 255, 0.03);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+        background: radial-gradient(
+            800px 300px at 10% -10%,
+            rgba(92, 58, 255, 0.06),
+            transparent
+          ),
+          radial-gradient(
+            700px 250px at 110% 0%,
+            rgba(0, 246, 255, 0.03),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* animated moving background layers */
+      .bg-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .bg-blob {
+        position: absolute;
+        width: 520px;
+        height: 520px;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.28;
+        transform: translate3d(0, 0, 0);
+        mix-blend-mode: screen;
+      }
+      .bg-blob.b1 {
+        left: -12%;
+        top: -8%;
+        background: linear-gradient(
+          135deg,
+          rgba(92, 58, 255, 0.95),
+          rgba(0, 246, 255, 0.6)
+        );
+        animation: blobMove1 14s ease-in-out infinite;
+      }
+      .bg-blob.b2 {
+        right: -15%;
+        bottom: -10%;
+        width: 620px;
+        height: 620px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 51, 102, 0.85),
+          rgba(92, 58, 255, 0.35)
+        );
+        animation: blobMove2 18s ease-in-out infinite;
+      }
+      .bg-lines {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02) 1px,
+          transparent 1px
+        );
+        background-size: 100px 100px;
+        mix-blend-mode: overlay;
+        opacity: 0.02;
+        transform: translateZ(0);
+        animation: lines 40s linear infinite;
+      }
+
+      @keyframes blobMove1 {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        50% {
+          transform: translate3d(40px, 30px, 0) scale(1.08);
+        }
+        100% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+      }
+      @keyframes blobMove2 {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        50% {
+          transform: translate3d(-40px, -26px, 0) scale(1.06);
+        }
+        100% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+      }
+      @keyframes lines {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 4000px 0;
+        }
+      }
+
+      /* topbar */
+      .topbar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 28px;
+        color: var(--muted);
+        background: linear-gradient(
+          90deg,
+          rgba(92, 58, 255, 0.04),
+          rgba(0, 246, 255, 0.02)
+        );
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        z-index: 10;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: conic-gradient(
+          from 0deg,
+          var(--primary),
+          var(--accent),
+          var(--secondary)
+        );
+        box-shadow: 0 10px 30px rgba(92, 58, 255, 0.12);
+        animation: spin 9s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .brand h1 {
+        font-size: 18px;
+        margin: 0;
+        letter-spacing: 1px;
+      }
+      .top-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .top-actions a {
+        color: var(--muted);
+        text-decoration: none;
+        padding: 6px 10px;
+        border-radius: 8px;
+      }
+      .top-actions .cta {
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        color: #fff;
+        font-weight: 700;
+      }
+
+      /* center card */
+      .center-wrap {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        position: relative;
+        z-index: 5;
+      }
+      .signup-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 22px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 30px 60px rgba(92, 58, 255, 0.06);
+      }
+
+      /* left graphic */
+      .side-visual {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+      }
+      .phone-mock {
+        width: 80%;
+        max-width: 360px;
+        border-radius: 18px;
+        overflow: hidden;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      }
+      .phone-mock img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .visual-text {
+        color: var(--muted);
+        text-align: center;
+      }
+
+      /* form */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+      .input,
+      textarea,
+      select {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 12px;
+        border-radius: 10px;
+        color: var(--text);
+        outline: none;
+      }
+      .input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: rgba(92, 58, 255, 0.6);
+        box-shadow: 0 6px 30px rgba(92, 58, 255, 0.06);
+      }
+      .title {
+        font-size: 22px;
+        font-weight: 800;
+        margin: 0;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* upload area */
+      .upload-drop {
+        border: 2px dashed rgba(255, 255, 255, 0.03);
+        padding: 14px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(
+          90deg,
+          rgba(92, 58, 255, 0.02),
+          rgba(0, 246, 255, 0.01)
+        );
+        transition: all 0.18s;
+      }
+      .upload-drop.dragover {
+        border-color: rgba(0, 246, 255, 0.35);
+        transform: translateY(-6px);
+        box-shadow: 0 30px 70px rgba(0, 246, 255, 0.05);
+      }
+      .upload-btn {
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        color: white;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(92, 58, 255, 0.08);
+      }
+
+      .preview {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .avatar-preview {
+        width: 84px;
+        height: 84px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: var(--panel);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .avatar-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .file-meta {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* animated progress circle */
+      .progress {
+        width: 84px;
+        height: 84px;
+        display: grid;
+        place-items: center;
+      }
+      .progress svg {
+        transform: rotate(-90deg);
+      }
+
+      /* actions */
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 10px;
+        border-radius: 10px;
+        color: var(--muted);
+      }
+
+      /* success state */
+      .success-banner {
+        background: linear-gradient(
+          90deg,
+          var(--accent),
+          rgba(0, 246, 255, 0.06)
+        );
+        padding: 10px;
+        border-radius: 10px;
+        color: #001;
+        display: none;
+      }
+      .success-banner.show {
+        display: block;
+      }
+
+      /* responsive */
+      @media (max-width: 900px) {
+        .signup-card {
+          grid-template-columns: 1fr;
+        }
+        .side-visual {
+          order: 2;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- animated bg layers -->
+    <div class="bg-layer" aria-hidden>
+      <div class="bg-blob b1"></div>
+      <div class="bg-blob b2"></div>
+      <div class="bg-lines"></div>
+    </div>
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden></div>
+        <h1>ANIMAZE</h1>
+      </div>
+      <div class="top-actions">
+        <a href="#">Home</a><a class="cta" href="#">Sign In</a>
+      </div>
+    </div>
+
+    <div class="center-wrap">
+      <div class="signup-card">
+        <div class="side-visual">
+          <div class="phone-mock">
+            <img
+              src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=900&auto=format&fit=crop"
+              alt="visual"
+            />
+          </div>
+          <div class="visual-text">
+            <strong>Join Animaze</strong>
+            <div class="sub">
+              Create your account, upload a profile photo and start collecting.
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 6px;
+            "
+          >
+            <div>
+              <div class="title">Create your account</div>
+              <div class="sub">
+                Sign up to save wishlist, add reviews and faster checkout
+              </div>
+            </div>
+          </div>
+
+          <form id="signupForm" autocomplete="off">
+            <div class="row">
+              <input
+                required
+                name="first"
+                placeholder="First name"
+                class="input"
+              />
+              <input
+                required
+                name="last"
+                placeholder="Last name"
+                class="input"
+              />
+            </div>
+
+            <input
+              required
+              name="email"
+              placeholder="Email address"
+              type="email"
+              class="input"
+            />
+            <div class="row">
+              <input
+                required
+                name="password"
+                placeholder="Password"
+                type="password"
+                class="input"
+              />
+              <input
+                required
+                name="confirm"
+                placeholder="Confirm"
+                type="password"
+                class="input"
+              />
+            </div>
+
+            <label style="font-size: 13px; color: var(--muted); margin-top: 6px"
+              >Profile Photo</label
+            >
+            <div id="drop" class="upload-drop">
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 8px;
+                "
+              >
+                <svg
+                  width="44"
+                  height="44"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden
+                >
+                  <path
+                    d="M7 16l-4-4 1.5-1.5L7 13l12-12L21 7l-14 9z"
+                    fill="url(#g)"
+                    opacity="0.9"
+                  ></path>
+                  <defs>
+                    <linearGradient id="g" x1="0" x2="1">
+                      <stop offset="0" stop-color="#5c3aff" />
+                      <stop offset="1" stop-color="#00f6ff" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="sub">
+                  Drag & drop or
+                  <button type="button" class="upload-btn" id="pickBtn">
+                    Choose file
+                  </button>
+                </div>
+                <div class="file-meta">PNG, JPG — up to 5MB</div>
+              </div>
+
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                style="display: none"
+              />
+
+              <div id="previewArea" style="margin-top: 12px; display: none">
+                <div style="display: flex; gap: 12px; align-items: center">
+                  <div class="avatar-preview" id="avatarPreview">
+                    <img alt="preview" src="" />
+                  </div>
+                  <div>
+                    <div class="file-meta" id="fileName"></div>
+                    <div style="margin-top: 6px; display: flex; gap: 8px">
+                      <button type="button" class="ghost" id="removeBtn">
+                        Remove
+                      </button>
+                      <button type="button" class="upload-btn" id="uploadBtn">
+                        Upload & Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                margin-top: 12px;
+                display: flex;
+                gap: 10px;
+                align-items: center;
+              "
+            >
+              <button type="submit" class="upload-btn">Create account</button>
+              <button type="button" class="ghost" id="cancelBtn">Cancel</button>
+            </div>
+
+            <div class="success-banner" id="successBanner">
+              Account created — you can now sign in!
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Elements
+      const drop = document.getElementById("drop");
+      const fileInput = document.getElementById("fileInput");
+      const pickBtn = document.getElementById("pickBtn");
+      const previewArea = document.getElementById("previewArea");
+      const avatarPreview = document.querySelector("#avatarPreview img");
+      const fileNameEl = document.getElementById("fileName");
+      const removeBtn = document.getElementById("removeBtn");
+      const uploadBtn = document.getElementById("uploadBtn");
+      const successBanner = document.getElementById("successBanner");
+      const signupForm = document.getElementById("signupForm");
+
+      // Drag & drop handlers
+      ["dragenter", "dragover"].forEach((ev) =>
+        drop.addEventListener(ev, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          drop.classList.add("dragover");
+        })
+      );
+      ["dragleave", "drop"].forEach((ev) =>
+        drop.addEventListener(ev, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          drop.classList.remove("dragover");
+        })
+      );
+
+      drop.addEventListener("drop", (e) => {
+        const dt = e.dataTransfer;
+        if (!dt || !dt.files || dt.files.length === 0) return;
+        handleFile(dt.files[0]);
+      });
+
+      pickBtn.addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+      });
+
+      function handleFile(file) {
+        if (!file) return;
+        if (!file.type.startsWith("image/")) {
+          alert("Please select an image");
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          alert("Maximum 5MB");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          avatarPreview.src = reader.result;
+          previewArea.style.display = "block";
+          fileNameEl.textContent =
+            file.name + " • " + Math.round(file.size / 1024) + "KB";
+
+          // small pulse animation on preview
+          avatarPreview.style.transform = "scale(0.96)";
+          setTimeout(() => (avatarPreview.style.transform = "scale(1)"), 60);
+
+          // store for upload simulation
+          previewArea.dataset.file = file.name;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      removeBtn.addEventListener("click", () => {
+        avatarPreview.src = "";
+        previewArea.style.display = "none";
+        fileInput.value = "";
+      });
+
+      uploadBtn.addEventListener("click", async () => {
+        if (!previewArea.dataset.file) return alert("Pick a file first");
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "Uploading...";
+
+        // create simple progress ring animation using CSS + timeout simulation
+        const start = Date.now();
+        const duration = 900 + Math.random() * 900;
+        let progress = 0;
+        const id = setInterval(() => {
+          progress = Math.min(1, (Date.now() - start) / duration);
+          uploadBtn.style.boxShadow = `0 10px 40px rgba(92,58,255,${
+            0.08 + progress * 0.18
+          })`;
+          if (progress >= 1) {
+            clearInterval(id);
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = "Saved ✓";
+            setTimeout(() => (uploadBtn.textContent = "Upload & Save"), 900);
+          }
+        }, 60);
+      });
+
+      // signup form submission (client-only) -> store user in localStorage (demo)
+      signupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const data = new FormData(signupForm);
+        const user = {
+          first: data.get("first"),
+          last: data.get("last"),
+          email: data.get("email"),
+          created: new Date().toISOString(),
+          avatar: avatarPreview.src || "",
+        };
+        // store (demo only)
+        const users = JSON.parse(localStorage.getItem("animaze_users") || "[]");
+        users.push(user);
+        localStorage.setItem("animaze_users", JSON.stringify(users));
+        successBanner.classList.add("show");
+        setTimeout(() => successBanner.classList.remove("show"), 3000);
+        signupForm.reset();
+        avatarPreview.src = "";
+        previewArea.style.display = "none";
+      });
+
+      // small accessibility: keyboard pick
+      pickBtn.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") fileInput.click();
+      });
+    </script>
+  </body>
+</html>

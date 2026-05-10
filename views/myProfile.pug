@@ -1,0 +1,177 @@
+
+doctype html
+html(lang="en")
+  //- Head section
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    title AniMerch — Account Settings
+    meta(name="color-scheme", content="dark")
+    link(href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@600;800&display=swap", rel="stylesheet")
+    link(rel="stylesheet", href="/css/myProfile.css")
+    link(rel="stylesheet", href="/css/base.css")
+  body
+    
+    include _topbar
+    include _header
+
+    .am-layout(role="main")
+      //- Sidebar
+      aside.am-sidebar(aria-label="Account sidebar")
+        .am-user
+          //- SSR: replace src with user's avatar
+          img#sidebarAvatar(src=`${user.photo ? user.photo : `https://i.pravatar.cc/60?img=${Math.trunc(Math.random() * 30)}`}`, alt=`${user.name.split(' ')[0]}`)
+          div
+            .who= `${user.name}`
+            .am-small= `Member since ${2025}`
+        
+        nav.am-nav(aria-label="Account sections")
+          a.active(href="/account") Account settings
+          a(href="/me/orders") My orders
+          a(href="/me/reviews") My reviews
+          a(href="/me/billing") Billing
+          a(href="/me/addresses") Addresses
+          a(href="/me/security") Security
+        
+      
+      //- Main content
+      section.am-main(aria-labelledby="accountTitle")
+        h1#accountTitle(style="margin: 0 0 12px; font-size: 22px") Your account settings
+        
+        .am-grid
+          //- Left: profile card
+          .am-profile-card(aria-hidden="false")
+            .avatar-wrap(role="region", aria-label="Profile picture")
+              .avatar-frame#avatarFrame(title="Profile picture")
+                //- SSR: put user image here
+                img#avatarImg(src=`${user.photo ? user.photo : `https://i.pravatar.cc/60?img=${Math.trunc(Math.random() * 30)}`}`, alt=`${user.name.split(' ')[0]}`)
+              
+              .avatar-actions
+                label.btn-ghost(for="avatarInput", role="button", aria-label="Upload new profile photo") Change photo
+                button#removeAvatarBtn.btn-ghost(type="button") Remove
+              
+              input#avatarInput.file-input(type="file", accept="image/*", aria-hidden="false")
+              
+              .profile-meta
+          
+                h3= `${user.name}`
+                p.muted-note= `${user.email}`
+              .muted-note(style="margin-top: 8px") Pro tip: upload square images; we'll crop to fit.
+            
+            .hr
+            
+            div
+              div(style="display: flex; gap: 10px; align-items: center; justify-content: space-between")
+                div(style="font-weight: 800") Preferences
+                div.muted-note Manage account preferences
+              
+
+          
+          //- Right: forms
+          div
+            //- ACCOUNT DETAILS
+            section(style="margin-bottom: 18px")
+              h2(style="margin: 0 0 8px") Profile
+              form#profileForm.fieldset()
+                .am-row
+                  .am-col
+                    label.am-label(for="fullName") Full name
+                    input#fullName.am-input(name="name", value=`${user.name}`, required)
+                  .am-col
+                    label.am-label(for="email") Email address
+                    input#email.am-input(name="email", type="email", value=`${user.email}`, required)
+                
+    
+                .am-form-actions
+                  button.btn-save(type="submit") Save profile
+                  button.btn-cancel(type="button", onclick="document.getElementById('profileForm').reset()") Reset
+            
+            .hr
+            section(style="margin: 18px 0")
+              h2(style="margin: 0 0 8px") Addresses
+              
+              .address-list#addressList
+                each address, id in addresses
+                  .address-card(data-address-id="1")
+                    div
+                      input#addressId(type="hidden" value=`${address._id}`)
+                      div(style="font-weight: 800") Home
+                      .addr-body
+                        | #{address.houseNumber}, #{address.street}
+                        br
+                        | #{address.city}, #{address.district} #{address.pin}
+                        br
+                        | #{address.state}
+                    .addr-actions
+                      button.chip Edit
+                      button.chip.elRemove Remove
+              
+              div(style="margin-top: 12px")
+                button#addAddressBtn.btn-save(type="button") Add new address
+              
+              div#addressFormWrap(style="margin-top: 12px; display: none")
+                form#addressForm
+                  input#addressId(type="hidden", name="addressId")
+                  .am-row(style="margin-top: 6px")
+                    .am-col
+                      label.am-label Street
+                      input#addressStreet.am-input(name="city", required)
+                    .am-col
+                      label.am-label House Number
+                      input#addressHn.am-input(name="postal")
+                  
+                  .am-row(style="margin-top: 6px")
+                    .am-col
+                      label.am-label City
+                      input#addressCity.am-input(name="city", required)
+                    .am-col
+                      label.am-label Postal / PIN
+                      input#addressPostal.am-input(name="postal")
+                  
+                  .am-row(style="margin-top: 6px")
+                    .am-col
+                      label.am-label State
+                      input#addressState.am-input(name="city", required)
+                    .am-col
+                      label.am-label District
+                      input#addressDist.am-input(name="postal")
+
+                  .am-form-actions
+                    button.btn-save(type="submit") Save address
+                    button.btn-cancel(type="button", onclick="hideAddressForm()") Cancel
+            .hr
+            section(style="margin-top: 18px")
+              h2(style="margin: 0 0 8px") Security
+              
+              .pw-box
+                div(style="display: flex; align-items: center; justify-content: space-between; gap: 12px")
+                  div
+                    div(style="font-weight: 800") Change password
+                    .muted-note Update your password periodically to keep your account secure
+                  div
+                    button#pwToggle.pw-toggle(aria-expanded="false") Change
+                
+                div#pwForm(style="margin-top: 12px; display: none")
+                  form#passwordForm()
+                    label.am-label Current password
+                    input#currPw.am-input(name="current", type="password", required)
+                    
+                    label.am-label New password
+                    input#newPw.am-input(name="new", type="password", required)
+                    
+                    label.am-label Confirm password
+                    input#confirmPw.am-input(name="confirm", type="password", required)
+                    
+                    div#pwFeedback.muted-note(style="margin-top: 8px")
+                    
+                    .am-form-actions
+                      button.btn-save(type="submit") Save password
+                      button.btn-cancel(type="button", onclick="togglePw(false)") Cancel
+              
+              div.muted-note(style="margin-top: 12px") Two-factor and login activity are available under Security (coming soon)
+
+
+    footer(style="max-width: 1200px; margin: 26px auto; padding: 18px; color: var(--muted); text-align: center; font-size: 13px")
+    script(defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    script(src="/js/myprofile.js")
+      

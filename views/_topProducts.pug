@@ -1,0 +1,18 @@
+section#products.section
+  h2 Featured Products
+  .products
+    each product in products
+      article.card
+        .thumb
+          img(src=`${product.coverImage}` alt=`${product.name}`)
+          span.sale -20%
+        .content
+          h3.title= `${product.name}`
+          .meta= `${product.details[1]}`
+          .price-row
+            .price= `₹ ${product.discountedPrice}`
+            a.add(
+              onclick="void(0)"
+              href=`product/${product.slug}`
+              onmousemove="const r=this.getBoundingClientRect();this.style.setProperty('--x', (event.clientX-r.left)+'px');this.style.setProperty('--y', (event.clientY-r.top)+'px');"
+            ) Shop Now

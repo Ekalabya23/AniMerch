@@ -1,0 +1,47 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width,initial-scale=1')
+    title Animaze — Login
+    link(rel='stylesheet' href='/css/login.css')
+    
+
+  body
+    .bg-layer(aria-hidden='')
+      .bg-blob.b1
+      .bg-blob.b2
+      .bg-lines
+    .card(role='main')
+      .left
+        .brand
+          .logo(aria-hidden='')
+          h2 AniMerch
+        div
+          .headline Welcome back
+          .sub
+            | Sign in to access your wishlist, order history and leave reviews.
+        form#loginForm(autocomplete='on')
+          input#email.input(type='email', placeholder='Email address', required='')
+          .row
+            input#password.input(type='password', placeholder='Password', required='')
+            button#togglePwd.ghost(type='button', aria-label='Show password') Show
+          .helper
+            label.remember
+              input#remember(type='checkbox')
+              |  Remember me
+            a#forgot(href='#', style='color: var(--muted); text-decoration: none') Forgot?
+          div(style='display: flex; gap: 10px; align-items: center')
+            button.btn(type='submit') Sign In
+            button#demoBtn.ghost(type='button') Demo login
+          #msg(aria-live='polite')
+        div(style='margin-top: 8px; color: var(--muted)')
+          | Don't have an account?
+          a(href='signup.html', style='color: var(--accent); text-decoration: none') Create one
+      .right
+        img(src='https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=900&auto=format&fit=crop', alt='neon arcade')
+        .note
+          | Tip: Use demo login while testing — works locally without backend.
+    script(defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    script(src="/js/login.js")
+

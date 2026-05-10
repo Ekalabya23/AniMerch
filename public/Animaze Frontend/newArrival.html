@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Animaze — Infinite Center Pop Carousel (SSR-friendly)</title>
+    <style>
+      :root {
+        --bg: #06060a;
+        --text: #f5f5f7;
+        --muted: #bdbbd1;
+        --primary: #5c3aff;
+        --secondary: #ff3366;
+        --card-w: 320px;
+        --secondary-rgb: 102, 0, 255;
+        --primary-rgb: 255, 102, 0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      .section-newArrival {
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      }
+      .section-newArrival {
+        -webkit-font-smoothing: antialiased;
+        padding: 28px 0;
+      }
+
+      .wrap {
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 0 18px;
+        z-index: 3;
+        position: relative;
+      }
+      header.hero {
+        text-align: center;
+        margin-bottom: 18px;
+      }
+      header.hero h1 {
+        font-size: 46px;
+        margin: 0;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+      }
+      header.hero p {
+        color: var(--muted);
+        margin: 8px 0 0;
+      }
+
+      .bg-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.16;
+        mix-blend-mode: screen;
+      }
+      .blob.a {
+        left: -8%;
+        top: -8%;
+        width: 560px;
+        height: 560px;
+        background: linear-gradient(135deg, var(--primary), #00f6ff);
+        animation: ba 18s ease-in-out infinite;
+      }
+      .blob.b {
+        right: -12%;
+        bottom: -10%;
+        width: 680px;
+        height: 680px;
+        background: linear-gradient(135deg, var(--secondary), var(--primary));
+        animation: bb 20s ease-in-out infinite;
+      }
+      @keyframes ba {
+        0% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(36px, 22px);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+      @keyframes bb {
+        0% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(-36px, -26px);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+
+      .anim-carousel {
+        position: relative;
+        margin-top: 8px;
+        z-index: 4;
+      }
+      .anim-nav {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: space-between;
+        pointer-events: none;
+        z-index: 20;
+      }
+      .anim-nav button {
+        pointer-events: auto;
+        background: rgba(10, 10, 16, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+
+      .anim-viewport {
+        height: max-content;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 10px 6px;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+      }
+      .anim-viewport::-webkit-scrollbar {
+        display: none;
+      }
+
+      .anim-row {
+        margin-top: 300px;
+        display: flex;
+        align-items: flex-end;
+        gap: 28px;
+        padding: 12px 24px;
+        will-change: transform;
+        height: max-content;
+      }
+
+      .anim-item {
+        --w: var(--card-w);
+        width: var(--w);
+        min-width: var(--w);
+        height: 520px;
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        transform-origin: center bottom;
+        transition: transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1),
+          box-shadow 0.45s, opacity 0.35s, filter 0.45s;
+        box-shadow: 0 14px 38px rgba(0, 0, 0, 0.55);
+        cursor: pointer;
+        scroll-snap-align: center;
+        opacity: 0.6;
+      }
+      .anim-item .art {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+      }
+      .anim-item .art img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.02);
+        filter: grayscale(82%) brightness(0.78);
+        transition: transform 0.9s ease, filter 0.45s;
+      }
+      .anim-item .meta {
+        position: relative;
+        z-index: 2;
+        padding: 18px;
+        background: linear-gradient(
+          180deg,
+          rgba(8, 8, 10, 0),
+          rgba(8, 8, 10, 0.6)
+        );
+        color: var(--text);
+      }
+      .anim-item .title {
+        font-weight: 900;
+        margin: 0;
+        font-size: 18px;
+      }
+      .anim-item .sub {
+        color: var(--muted);
+        margin-top: 6px;
+        font-size: 13px;
+      }
+
+      .anim-shop {
+        z-index: 100;
+        position: absolute;
+        left: 50%;
+        bottom: 26px;
+        transform: translateX(-50%) translateY(12px);
+
+        background: linear-gradient(
+          90deg,
+          rgba(var(--secondary-rgb), 0.3),
+          rgba(var(--primary-rgb), 0.3)
+        );
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-weight: 800;
+        color: #fff;
+        opacity: 0;
+        transition: all 0.28s;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        text-decoration: none;
+      }
+
+      /* visual states */
+      .anim-item.anim-center {
+        transform: translateY(-20px) scale(1.42);
+        opacity: 1;
+        z-index: 8;
+        box-shadow: 0 80px 200px rgba(92, 58, 255, 0.28);
+        filter: saturate(1.06);
+      }
+      .anim-item.anim-near {
+        transform: translateY(4px) scale(1);
+        opacity: 0.94;
+        z-index: 6;
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.48);
+      }
+      .anim-item.anim-far {
+        transform: translateY(22px) scale(0.86);
+        opacity: 0.56;
+        z-index: 4;
+      }
+      .anim-item.anim-center .anim-shop {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .anim-item:hover .anim-shop {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .anim-item:focus {
+        outline: 3px solid rgba(92, 58, 255, 0.12);
+        outline-offset: 6px;
+      }
+
+      @media (max-width: 1100px) {
+        :root {
+          --card-w: 260px;
+        }
+        .anim-item {
+          height: 420px;
+        }
+        .anim-item.anim-center {
+          transform: translateY(-12px) scale(1.34);
+        }
+      }
+      @media (max-width: 720px) {
+        :root {
+          --card-w: 220px;
+        }
+        .anim-item {
+          height: 360px;
+        }
+        .anim-item.anim-center {
+          transform: translateY(-8px) scale(1.18);
+        }
+      }
+
+      .hint {
+        text-align: center;
+        color: var(--muted);
+        margin-top: 14px;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-layer" aria-hidden>
+      <div class="blob a"></div>
+      <div class="blob b"></div>
+    </div>
+
+    <div class="wrap">
+      <header class="hero">
+        <h1>NEW ARRIVALS</h1>
+        <p>
+          Infinite autoplay every 5s — center item pops up. Server-rendered
+          items only.
+        </p>
+      </header>
+
+      <section
+        class="anim-carousel"
+        aria-roledescription="carousel"
+        aria-label="New arrivals"
+      >
+        <div class="anim-nav" aria-hidden="false">
+          <button id="animPrev" aria-label="Previous">‹</button>
+          <button id="animNext" aria-label="Next">›</button>
+        </div>
+
+        <div
+          class="anim-viewport"
+          id="animViewport"
+          tabindex="0"
+          aria-live="polite"
+        >
+          <div class="anim-row" id="animRow" role="list">
+            <!-- ===== SSR: loop your products here (server outputs just these nodes). =====
+               Example EJS:
+               <% products.forEach(function(p, idx){ %>
+                 <article class="anim-item" data-idx="<%= idx %>" <% if(p.center){ %> data-center="true" <% } %> >
+                   <div class="art"><img src="<%= p.coverImage %>" alt="<%= p.name %>"></div>
+                   <div class="meta"><div class="title"><%= p.name %></div><div class="sub"><%= p.genre %></div></div>
+                   <a class="anim-shop" href="/product/<%= p.slug %>">SHOP NOW</a>
+                 </article>
+               <% }) %>
+             ========================================================================== -->
+
+            <!-- Sample static items for preview; replace with server-rendered items -->
+            <article class="anim-item" data-idx="0">
+              <div class="art">
+                <img
+                  src="data:image/jpeg;base64,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"
+                  alt="Goku Ultra"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Goku Ultra</div>
+                <div class="sub">Figure • 18cm</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="1">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1708034677699-6f39d9c59f6e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YW5pbWUlMjB3YWxscGFwZXJ8ZW58MHx8MHx8fDA%3D"
+                  alt="Rengoku Mini"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Rengoku Mini</div>
+                <div class="sub">Figure • 15cm</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="2" data-center="true">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1668119064420-fb738fb05e32?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGFuaW1lJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww"
+                  alt="Gyomei Him"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Gyomei Him</div>
+                <div class="sub">Statue</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="3">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1705932461994-6fb2b07f27dd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGFuaW1lJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww"
+                  alt="Sukuna Finger"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Sukuna Finger</div>
+                <div class="sub">Collectible</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="4">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1677143016924-82f8c6da9daa?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGFuaW1lJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww"
+                  alt="Ace"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Ace</div>
+                <div class="sub">Figure</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+
+            <article class="anim-item" data-idx="5">
+              <div class="art">
+                <img
+                  src="https://images.unsplash.com/photo-1677143051370-da2e52baa771?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTE0fHxhbmltZSUyMHdhbGxwYXBlcnxlbnwwfHwwfHx8MA%3D%3D"
+                  alt="Toji Fushiguro"
+                />
+              </div>
+              <div class="meta">
+                <div class="title">Toji Weapon</div>
+                <div class="sub">Weapon</div>
+              </div>
+              <a class="anim-shop" href="#">SHOP NOW</a>
+            </article>
+          </div>
+        </div>
+
+        <div class="hint">
+          Autoplay every 5s — hover/focus to pause. Keyboard: ← / →
+        </div>
+      </section>
+    </div>
+
+    <script>
+      /* Infinite carousel logic:
+   - Server renders original items only inside #animRow.
+   - Script clones these nodes (prepend + append) to make an infinite strip.
+   - Center index starts at server-specified data-center or middle.
+   - Autoplay moves center every 5s; when we hit clone region we jump instantly back to the equivalent original index (no visual jump).
+   - Script stores only DOM node lists, not product data.
+*/
+
+      (function () {
+        const viewport = document.getElementById("animViewport");
+        const row = document.getElementById("animRow");
+        if (!viewport || !row) return;
+
+        // read original nodes (server-rendered)
+        const originalNodes = Array.from(row.children);
+        const originalCount = originalNodes.length;
+        if (originalCount === 0) return;
+
+        // clone original set and append/prepend to allow seamless infinite scroll
+        const prependFrag = document.createDocumentFragment();
+        const appendFrag = document.createDocumentFragment();
+
+        // clone order: prepend clones in reverse so visual order stays identical
+        for (let i = originalCount - 1; i >= 0; i--) {
+          const c = originalNodes[i].cloneNode(true);
+          prependFrag.insertBefore(c, prependFrag.firstChild);
+        }
+        for (let i = 0; i < originalCount; i++) {
+          const c = originalNodes[i].cloneNode(true);
+          appendFrag.appendChild(c);
+        }
+
+        // insert clones
+        row.insertBefore(prependFrag, row.firstChild);
+        row.appendChild(appendFrag);
+
+        // now fullNodes = clonesBefore + originals + clonesAfter
+        let fullNodes = Array.from(row.children);
+        const total = fullNodes.length; // should be originalCount * 3
+
+        // find initial center: prefer server-set data-center attribute on original nodes
+        // server must set data-center on one of the original nodes (not clones)
+        let serverIndex = originalNodes.findIndex((n) =>
+          n.hasAttribute("data-center")
+        );
+        if (serverIndex === -1) serverIndex = Math.floor(originalCount / 2);
+
+        // in the fullNodes array, the original block starts at index = originalCount (because we prepended originalCount clones)
+        let centerIndex = originalCount + serverIndex;
+
+        // helper: scroll into view for a fullNodes index
+        function scrollToIndex(idx, behavior = "smooth") {
+          const el = fullNodes[idx];
+          if (!el) return;
+          // ensure images loaded before centering (improves accuracy)
+          const img = el.querySelector("img");
+          if (img && !img.complete) {
+            img.addEventListener(
+              "load",
+              () => {
+                viewport.style.scrollBehavior = behavior;
+                el.scrollIntoView({ inline: "center", block: "nearest" });
+                // restore smooth after immediate jumps
+                if (behavior === "auto") {
+                  setTimeout(
+                    () => (viewport.style.scrollBehavior = "smooth"),
+                    20
+                  );
+                }
+              },
+              { once: true }
+            );
+          } else {
+            viewport.style.scrollBehavior = behavior;
+            el.scrollIntoView({ inline: "center", block: "nearest" });
+            if (behavior === "auto") {
+              setTimeout(() => (viewport.style.scrollBehavior = "smooth"), 20);
+            }
+          }
+        }
+
+        // apply visual classes (center/near/far) across fullNodes
+        function applyClasses() {
+          // recalc fullNodes in case DOM was altered
+          fullNodes = Array.from(row.children);
+          fullNodes.forEach((el, i) => {
+            el.classList.remove(
+              "anim-center",
+              "anim-near",
+              "anim-far",
+              "active"
+            );
+            if (i === centerIndex) el.classList.add("anim-center", "active");
+            else if (
+              i === centerIndex - 1 ||
+              (centerIndex === 0 && i === fullNodes.length - 1)
+            )
+              el.classList.add("anim-near");
+            else if (
+              i === centerIndex + 1 ||
+              (centerIndex === fullNodes.length - 1 && i === 0)
+            )
+              el.classList.add("anim-near");
+            else el.classList.add("anim-far");
+          });
+        }
+
+        // when we arrive at an index inside clone region, jump to corresponding original index
+        // original index range in fullNodes is [originalCount, originalCount*2 - 1]
+        function normalizeIndexIfNeeded() {
+          // If centerIndex moved into appended clones region (>= originalCount*2),
+          // shift it back by originalCount (subtract originalCount).
+          const startOriginal = originalCount;
+          const endOriginal = originalCount * 2 - 1;
+
+          if (centerIndex > endOriginal) {
+            // compute offset into appended clones, then move to same pos in original block
+            const offset = centerIndex - originalCount * 2;
+            centerIndex = originalCount + offset;
+            // jump instantly (no animation) to the corresponding original element
+            scrollToIndex(centerIndex, "auto");
+            applyClasses();
+          } else if (centerIndex < startOriginal) {
+            // moved into prepended clones: compute offset from start of prepends and jump forward
+            const offset = centerIndex; // offset inside prepend
+            centerIndex = originalCount + offset;
+            scrollToIndex(centerIndex, "auto");
+            applyClasses();
+          }
+        }
+
+        // navigation
+        function next() {
+          centerIndex = (centerIndex + 1) % fullNodes.length;
+          scrollToIndex(centerIndex, "smooth");
+          applyClasses();
+          // after CSS scroll animation, normalize if necessary
+          setTimeout(normalizeIndexIfNeeded, 520);
+        }
+        function prev() {
+          centerIndex = (centerIndex - 1 + fullNodes.length) % fullNodes.length;
+          scrollToIndex(centerIndex, "smooth");
+          applyClasses();
+          setTimeout(normalizeIndexIfNeeded, 520);
+        }
+
+        // autoplay
+        const DELAY = 2000;
+        let timer = null;
+        let paused = false;
+        function start() {
+          stop();
+          timer = setInterval(() => {
+            if (!paused) next();
+          }, DELAY);
+        }
+        function stop() {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        }
+        function restart() {
+          stop();
+          start();
+        }
+
+        // interactions
+        // click/keyboard on original-looking elements works (note we operate on fullNodes indices)
+        fullNodes.forEach((el, idx) => {
+          el.addEventListener("click", () => {
+            centerIndex = idx;
+            scrollToIndex(centerIndex, "smooth");
+            applyClasses();
+            setTimeout(normalizeIndexIfNeeded, 520);
+            restart();
+          });
+          el.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              centerIndex = idx;
+              scrollToIndex(centerIndex, "smooth");
+              applyClasses();
+              setTimeout(normalizeIndexIfNeeded, 520);
+              restart();
+            }
+          });
+        });
+
+        // prev/next buttons
+        const prevBtn = document.getElementById("animPrev");
+        const nextBtn = document.getElementById("animNext");
+        if (prevBtn)
+          prevBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            prev();
+          });
+        if (nextBtn)
+          nextBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            next();
+          });
+
+        // pause on hover/focus
+        viewport.addEventListener("mouseenter", () => {
+          paused = true;
+        });
+        viewport.addEventListener("mouseleave", () => {
+          paused = false;
+        });
+        viewport.addEventListener("focusin", () => {
+          paused = true;
+        });
+        viewport.addEventListener("focusout", () => {
+          paused = false;
+        });
+
+        // keyboard arrows
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowLeft") prev();
+          if (e.key === "ArrowRight") next();
+        });
+
+        // ensure centering after images load (wait for all or timeout)
+        const imgs = row.querySelectorAll("img");
+        let pending = imgs.length;
+        if (pending === 0) {
+          // immediate
+          scrollToIndex(centerIndex, "auto");
+          applyClasses();
+          start();
+        } else {
+          imgs.forEach((img) => {
+            if (img.complete) {
+              pending--;
+            } else
+              img.addEventListener(
+                "load",
+                () => {
+                  pending--;
+                  if (pending === 0) {
+                    scrollToIndex(centerIndex, "auto");
+                    applyClasses();
+                    start();
+                  }
+                },
+                { once: true }
+              );
+            img.addEventListener(
+              "error",
+              () => {
+                pending--;
+                if (pending === 0) {
+                  scrollToIndex(centerIndex, "auto");
+                  applyClasses();
+                  start();
+                }
+              },
+              { once: true }
+            );
+          });
+          // fallback: if images take too long, center after 900ms
+          setTimeout(() => {
+            if (!timer) {
+              scrollToIndex(centerIndex, "auto");
+              applyClasses();
+              start();
+            }
+          }, 900);
+        }
+
+        // keep center on resize
+        let rTimer = null;
+        window.addEventListener("resize", () => {
+          clearTimeout(rTimer);
+          rTimer = setTimeout(() => {
+            scrollToIndex(centerIndex, "auto");
+            applyClasses();
+          }, 120);
+        });
+
+        // expose small API
+        window.__animaze_infinite = {
+          next,
+          prev,
+          jumpTo: (idx) => {
+            centerIndex = originalCount + (idx % originalCount);
+            scrollToIndex(centerIndex, "smooth");
+            applyClasses();
+            setTimeout(normalizeIndexIfNeeded, 520);
+          },
+        };
+      })();
+    </script>
+  </body>
+</html>

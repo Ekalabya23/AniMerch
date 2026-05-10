@@ -1,0 +1,66 @@
+//- Pug template for the Animaze sign-up page
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width,initial-scale=1")
+    link(rel='stylesheet' href='/css/signup.css')
+    link(rel='stylesheet' href='/css/base.css')
+    title AniMerch — Sign Up
+  body
+    .bg-layer(aria-hidden)
+      .bg-blob.b1
+      .bg-blob.b2
+      .bg-lines
+    include _topbar
+    .center-wrap
+      .signup-card
+        .side-visual
+          .phone-mock
+            img(src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=900&auto=format&fit=crop" alt="visual")
+          .visual-text
+            strong Join Animaze
+            .sub Create your account, upload a profile photo and start collecting.
+        div
+          div(style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;")
+            div
+              .title Create your account
+              .sub Sign up to save wishlist, add reviews and faster checkout
+          form#signupForm(autocomplete="off")
+            .row
+              input.input(required name="first" placeholder="First name")
+              input.input(required name="last" placeholder="Last name")
+            input.input(required name="email" placeholder="Email address" type="email")
+            .row
+              input.input(required name="password" placeholder="Password" type="password")
+              input.input(required name="confirm" placeholder="Confirm" type="password")
+            label(style="font-size: 13px; color: var(--muted); margin-top: 6px;") Profile Photo
+            #drop.upload-drop
+              div(style="display: flex; flex-direction: column; align-items: center; gap: 8px;")
+                svg(width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden)
+                  path(d="M7 16l-4-4 1.5-1.5L7 13l12-12L21 7l-14 9z" fill="url(#g)" opacity="0.9")
+                  defs
+                    linearGradient#g(x1="0" x2="1")
+                      stop(offset="0" stop-color="#5c3aff")
+                      stop(offset="1" stop-color="#00f6ff")
+                .sub
+                  | Drag & drop or
+                  button#pickBtn.upload-btn(type="button") Choose file
+                .file-meta PNG, JPG — up to 5MB
+              input#fileInput(type="file" accept="image/*" style="display: none")
+              #previewArea(style="margin-top: 12px; display: none")
+                div(style="display: flex; gap: 12px; align-items: center")
+                  #avatarPreview.avatar-preview
+                    img(alt="preview" src="")
+                  div
+                    #fileName.file-meta
+                    div(style="margin-top: 6px; display: flex; gap: 8px")
+                      button#removeBtn.ghost(type="button") Remove
+                      button#uploadBtn.upload-btn(type="button") Upload & Save
+            div(style="margin-top: 12px; display: flex; gap: 10px; align-items: center;")
+              button.upload-btn(type="submit") Create account
+              button#cancelBtn.ghost(type="button") Cancel
+            #successBanner.success-banner Account created — you can now sign in!
+    script(defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+    script(src="/js/signup.js")
+    

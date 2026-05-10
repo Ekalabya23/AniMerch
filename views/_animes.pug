@@ -1,0 +1,57 @@
+section.section-animae
+  .bg-layer(aria-hidden)
+    .bg-blob.b1
+    .bg-blob.b2
+
+  .wrap
+    .hero-title Shop merch by anime
+    .hero-sub Hover a poster to preview — click to open product
+
+    .strip(role="region" aria-label="Popular anime strip")
+      .row#row(tabindex="0")
+
+        // Card 1
+        article.card-animae(tabindex="0" data-title="Dragon Ball" data-img="/img/dragon-ball-bg.jpg")
+          .art
+            img.bg(src="/img/Animes/dragon-ball.jpg" alt="Dragon Ball art")
+          .meta
+            .title Dragon Ball
+            .tag Collectors • Figures
+          a.shop-now(href="/anime/Dragon Ball" aria-hidden) Shop Now
+
+        // Card 2
+        article.card-animae(tabindex="0" data-title="One Piece" data-img="/img/one-piece-bg.jpg")
+          .art
+            img.bg(src="/img/Animes/one-piece.jpg" alt="One Piece art")
+          .meta
+            .title One Piece
+            .tag Luffy • Streetwear
+          a.shop-now(href="/anime/One Piece" aria-hidden) Shop Now
+
+        // Card 3 (center by default)
+        article.card-animae.center(tabindex="0" data-title="Demon Slayer" data-img="/img/demon-slayer-bg.jpg")
+          .art
+            img.bg(src="/img/Animes/demon-slayer.jpeg" alt="Demon Slayer art")
+          .meta
+            .title Demon Slayer
+            .tag Kimetsu no Yaiba • Limited
+          a.shop-now(href="/anime/Demon Slayer" aria-hidden) Shop Now
+
+        // Card 4
+        article.card-animae(tabindex="0" data-title="Naruto" data-img="/img/naruto-bg.jpg")
+          .art
+            img.bg(src="/img/Animes/naruto.jpeg" alt="Naruto art")
+          .meta
+            .title Naruto
+            .tag Streetwear • Tees
+          a.shop-now(href="/anime/Naruto" aria-hidden) Shop Now
+
+        // Card 5
+        article.card-animae(tabindex="0" data-title="Jujutsu Kaisen" data-img="/img/jujutsu-kaisen-bg.jpg")
+          .art
+            img.bg(src="/img/Animes/jujutsu-kaisen.jpeg" alt="Jujutsu Kaisen art")
+          .meta
+            .title Jujutsu Kaisen
+            .tag Collectors • Posters
+          a.shop-now(href="/anime/Jujutsu Kaisen" aria-hidden) Shop Now
+  script(src="/JS/homePage/anime.js")

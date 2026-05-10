@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AniMerch — Account Settings</title>
+    <meta name="color-scheme" content="dark" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ----------------- THEME VARIABLES ----------------- */
+      :root {
+        --bg: #0c0c1e;
+        --panel: #141426;
+        --muted: #bdbbd1;
+        --text: #f5f5f7;
+        --primary: #5c3aff;
+        --accent: #00f6ff;
+        --secondary: #ff3366;
+        --glass: rgba(255, 255, 255, 0.03);
+        --radius: 14px;
+        --shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+        --glass-2: rgba(255, 255, 255, 0.02);
+        --success: #2ecc71;
+      }
+      /* ------------- BASIC RESET & BODY ------------- */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Outfit, system-ui, -apple-system, Segoe UI, Roboto,
+          "Helvetica Neue", Arial;
+      }
+      body {
+        background: radial-gradient(
+            900px 300px at 8% -8%,
+            rgba(92, 58, 255, 0.06),
+            transparent
+          ),
+          radial-gradient(
+            700px 250px at 110% 0%,
+            rgba(0, 246, 255, 0.03),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        padding-bottom: 60px;
+      }
+
+      /* ------------- TOPBAR & HEADER ------------- */
+      .am-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 20px;
+        background: linear-gradient(
+          90deg,
+          rgba(92, 58, 255, 0.03),
+          rgba(0, 246, 255, 0.02)
+        );
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        position: sticky;
+        top: 0;
+        z-index: 80;
+      }
+      .am-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .am-logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: conic-gradient(
+          from 0deg,
+          var(--primary),
+          var(--accent),
+          var(--secondary)
+        );
+        box-shadow: 0 10px 30px rgba(92, 58, 255, 0.12);
+        animation: spin 9s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .am-site-title {
+        font-weight: 800;
+        font-family: Montserrat, sans-serif;
+      }
+
+      .am-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .am-btn {
+        background: var(--glass);
+        padding: 8px 12px;
+        border-radius: 10px;
+        color: var(--muted);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .am-cta {
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        color: white;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      /* ------------- LAYOUT ------------- */
+      .am-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 24px;
+        max-width: 1200px;
+        margin: 22px auto;
+        padding: 0 18px;
+        align-items: start;
+      }
+      @media (max-width: 980px) {
+        .am-layout {
+          grid-template-columns: 1fr;
+          padding: 0 12px;
+        }
+        .am-sidebar {
+          position: static;
+          height: auto;
+          margin-bottom: 18px;
+        }
+      }
+
+      /* ------------- SIDEBAR ------------- */
+      .am-sidebar {
+        background: linear-gradient(
+          180deg,
+          rgba(20, 18, 34, 0.85),
+          rgba(18, 16, 30, 0.9)
+        );
+        border-radius: 12px;
+        padding: 18px;
+        height: calc(100vh - 140px);
+        position: sticky;
+        top: 88px;
+        overflow: auto;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: var(--shadow);
+      }
+      .am-user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .am-user img {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255, 255, 255, 0.04);
+      }
+      .am-user .who {
+        font-weight: 700;
+      }
+      .am-nav {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .am-nav a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        color: var(--muted);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+        background: transparent;
+      }
+      .am-nav a.active {
+        background: linear-gradient(
+          90deg,
+          var(--primary),
+          rgba(0, 246, 255, 0.06)
+        );
+        color: white;
+        box-shadow: 0 10px 30px rgba(92, 58, 255, 0.08);
+      }
+      .am-small {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 16px;
+      }
+
+      /* ------------- MAIN CONTENT ------------- */
+      .am-main {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        border-radius: 12px;
+        padding: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: var(--shadow);
+      }
+      .am-grid {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        gap: 22px;
+      }
+      @media (max-width: 980px) {
+        .am-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ------------- PROFILE CARD (left column) ------------- */
+      .am-profile-card {
+        background: linear-gradient(
+          180deg,
+          rgba(12, 12, 20, 0.6),
+          rgba(12, 12, 20, 0.2)
+        );
+        padding: 18px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .avatar-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 8px;
+      }
+      .avatar-frame {
+        width: 140px;
+        height: 140px;
+        border-radius: 16px;
+        overflow: hidden;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 6px solid rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .avatar-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.45s;
+      }
+      .avatar-frame.uploading {
+        animation: avatar-pop 0.8s ease;
+        box-shadow: 0 30px 80px rgba(92, 58, 255, 0.18);
+        transform: scale(1.02);
+      }
+      @keyframes avatar-pop {
+        0% {
+          transform: scale(0.92) rotate(-2deg);
+        }
+        60% {
+          transform: scale(1.06) rotate(1deg);
+        }
+        100% {
+          transform: scale(1) rotate(0);
+        }
+      }
+      .avatar-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .file-input {
+        display: none;
+      }
+      .btn-ghost {
+        background: transparent;
+        border: 1px dashed rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+        padding: 8px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .profile-meta {
+        width: 100%;
+        text-align: center;
+      }
+      .profile-meta h3 {
+        margin: 6px 0 0;
+        font-size: 18px;
+      }
+      .profile-meta p {
+        margin: 2px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* ------------- SETTINGS FORMS (right column) ------------- */
+      form.fieldset {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      label.am-label {
+        font-weight: 700;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      input.am-input,
+      textarea.am-textarea,
+      select.am-select {
+        background: var(--glass);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        padding: 12px 14px;
+        border-radius: 10px;
+        color: var(--text);
+        font-size: 15px;
+        outline: none;
+      }
+      textarea.am-textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      .am-row {
+        display: flex;
+        gap: 12px;
+      }
+      .am-row .am-col {
+        flex: 1;
+      }
+      .muted-note {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .am-form-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 8px;
+      }
+      .btn-save {
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        color: white;
+        padding: 12px 18px;
+        border-radius: 12px;
+        border: none;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 18px 48px rgba(92, 58, 255, 0.12);
+      }
+      .btn-cancel {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        padding: 10px 14px;
+        border-radius: 10px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      /* ------------- Address list ------------- */
+      .address-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .address-card {
+        background: var(--panel);
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .address-card .addr-body {
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .address-card .addr-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .chip {
+        padding: 8px 10px;
+        border-radius: 10px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      /* ------------- Password box ------------- */
+      .pw-box {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        padding: 14px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .pw-toggle {
+        font-size: 13px;
+        color: var(--muted);
+        cursor: pointer;
+        text-decoration: underline;
+        background: none;
+        border: 0;
+        padding: 0;
+      }
+
+      /* little helper classes */
+      .hr {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.03);
+        margin: 12px 0;
+        border-radius: 2px;
+      }
+
+      /* responsive tweaks */
+      @media (max-width: 720px) {
+        .am-sidebar {
+          position: static;
+          height: auto;
+          padding-bottom: 10px;
+        }
+        .avatar-frame {
+          width: 120px;
+          height: 120px;
+        }
+      }
+
+      /* small status */
+      .status-ok {
+        color: var(--success);
+        font-weight: 700;
+        font-size: 13px;
+      }
+      .status-err {
+        color: var(--secondary);
+        font-weight: 700;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- topbar -->
+    <div class="am-topbar" role="banner">
+      <div class="am-brand">
+        <div class="am-logo" aria-hidden></div>
+        <div class="am-site-title">AniMerch</div>
+      </div>
+      <div class="am-actions">
+        <div class="am-small">Free shipping over ₹1,999</div>
+        <button
+          class="am-cta"
+          onclick="document.getElementById('signout').click()"
+        >
+          Log out
+        </button>
+        <a id="signout" href="/logout" style="display: none">Logout</a>
+      </div>
+    </div>
+
+    <!-- main layout -->
+    <div class="am-layout" role="main">
+      <!-- sidebar -->
+      <aside class="am-sidebar" aria-label="Account sidebar">
+        <div class="am-user">
+          <!-- SSR: replace src with user's avatar -->
+          <img
+            id="sidebarAvatar"
+            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop"
+            alt="User avatar"
+          />
+          <div>
+            <div class="who">Rahul Sharma</div>
+            <div class="am-small">Member since 2024</div>
+          </div>
+        </div>
+
+        <nav class="am-nav" aria-label="Account sections">
+          <a href="/account" class="active">Account settings</a>
+          <a href="/orders">My orders</a>
+          <a href="/reviews">My reviews</a>
+          <a href="/billing">Billing</a>
+          <a href="/addresses">Addresses</a>
+          <a href="/security">Security</a>
+        </nav>
+
+        <div class="am-small">
+          <div style="margin-top: 14px">Need help?</div>
+          <div style="margin-top: 8px">
+            <a class="am-btn" href="/help">Contact support</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- main content -->
+      <section class="am-main" aria-labelledby="accountTitle">
+        <h1 id="accountTitle" style="margin: 0 0 12px; font-size: 22px">
+          Your account settings
+        </h1>
+
+        <div class="am-grid">
+          <!-- left: profile card -->
+          <div class="am-profile-card" aria-hidden="false">
+            <div class="avatar-wrap" role="region" aria-label="Profile picture">
+              <div
+                class="avatar-frame"
+                id="avatarFrame"
+                title="Profile picture"
+              >
+                <!-- SSR: put user image here -->
+                <img
+                  id="avatarImg"
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
+                  alt="Profile photo"
+                />
+              </div>
+
+              <!-- upload controls -->
+              <div class="avatar-actions">
+                <label
+                  class="btn-ghost"
+                  for="avatarInput"
+                  role="button"
+                  aria-label="Upload new profile photo"
+                  >Change photo</label
+                >
+                <button class="btn-ghost" id="removeAvatarBtn" type="button">
+                  Remove
+                </button>
+              </div>
+
+              <input
+                id="avatarInput"
+                class="file-input"
+                type="file"
+                accept="image/*"
+                aria-hidden="false"
+              />
+
+              <div class="profile-meta">
+                <!-- SSR: user name/email -->
+                <h3>Rahul Sharma</h3>
+                <p class="muted-note">rahul@example.com</p>
+              </div>
+              <div style="margin-top: 8px" class="muted-note">
+                Pro tip: upload square images; we'll crop to fit.
+              </div>
+            </div>
+
+            <div class="hr"></div>
+
+            <div>
+              <div
+                style="
+                  display: flex;
+                  gap: 10px;
+                  align-items: center;
+                  justify-content: space-between;
+                "
+              >
+                <div style="font-weight: 800">Preferences</div>
+                <div class="muted-note">Manage account preferences</div>
+              </div>
+
+              <div style="margin-top: 10px">
+                <label class="am-label">Currency</label>
+                <select class="am-select" aria-label="Currency">
+                  <option selected>INR (₹)</option>
+                  <option>USD ($)</option>
+                  <option>EUR (€)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- right: forms -->
+          <div>
+            <!-- ACCOUNT DETAILS -->
+            <section style="margin-bottom: 18px">
+              <h2 style="margin: 0 0 8px">Profile</h2>
+              <form
+                id="profileForm"
+                class="fieldset"
+                method="POST"
+                action="/account/profile"
+              >
+                <!-- For SSR: fill value attributes with server data -->
+                <div class="am-row">
+                  <div class="am-col">
+                    <label class="am-label" for="fullName">Full name</label>
+                    <input
+                      id="fullName"
+                      name="name"
+                      class="am-input"
+                      value="Rahul Sharma"
+                      required
+                    />
+                  </div>
+                  <div class="am-col">
+                    <label class="am-label" for="email">Email address</label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      class="am-input"
+                      value="rahul@example.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div style="margin-top: 6px">
+                  <label class="am-label" for="bio">Bio (optional)</label>
+                  <textarea
+                    id="bio"
+                    name="bio"
+                    class="am-textarea"
+                    placeholder="Tell the community about your collection..."
+                  ></textarea>
+                </div>
+
+                <div class="am-form-actions">
+                  <button class="btn-save" type="submit">Save profile</button>
+                  <button
+                    class="btn-cancel"
+                    type="button"
+                    onclick="document.getElementById('profileForm').reset()"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </section>
+
+            <div class="hr"></div>
+
+            <!-- ADDRESSES -->
+            <section style="margin: 18px 0">
+              <h2 style="margin: 0 0 8px">Addresses</h2>
+
+              <div class="address-list" id="addressList">
+                <!-- SSR: server renders addresses here as .address-card nodes -->
+                <div class="address-card" data-address-id="1">
+                  <div>
+                    <div style="font-weight: 800">Home</div>
+                    <div class="addr-body">
+                      12, Nehru Street<br />Sector 7, Bangalore 560001<br />India
+                    </div>
+                  </div>
+                  <div class="addr-actions">
+                    <button class="chip" onclick="editAddress(1)">Edit</button>
+                    <button class="chip" onclick="removeAddress(1)">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+
+                <div class="address-card" data-address-id="2">
+                  <div>
+                    <div style="font-weight: 800">Work</div>
+                    <div class="addr-body">
+                      Suite 203, Tech Park<br />MG Road, Mumbai 400001
+                    </div>
+                  </div>
+                  <div class="addr-actions">
+                    <button class="chip" onclick="editAddress(2)">Edit</button>
+                    <button class="chip" onclick="removeAddress(2)">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 12px">
+                <button class="btn-save" id="addAddressBtn" type="button">
+                  Add new address
+                </button>
+              </div>
+
+              <!-- add / edit address form (toggled) -->
+              <div id="addressFormWrap" style="margin-top: 12px; display: none">
+                <form id="addressForm" method="POST" action="/account/address">
+                  <input type="hidden" name="addressId" id="addressId" />
+                  <label class="am-label">Label (Home / Work)</label>
+                  <input
+                    name="label"
+                    id="addressLabel"
+                    class="am-input"
+                    required
+                  />
+
+                  <label class="am-label">Address line</label>
+                  <input
+                    name="line1"
+                    id="addressLine1"
+                    class="am-input"
+                    required
+                  />
+
+                  <div class="am-row" style="margin-top: 6px">
+                    <div class="am-col">
+                      <label class="am-label">City</label>
+                      <input
+                        name="city"
+                        id="addressCity"
+                        class="am-input"
+                        required
+                      />
+                    </div>
+                    <div class="am-col">
+                      <label class="am-label">Postal / PIN</label>
+                      <input
+                        name="postal"
+                        id="addressPostal"
+                        class="am-input"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="am-form-actions">
+                    <button class="btn-save" type="submit">Save address</button>
+                    <button
+                      type="button"
+                      class="btn-cancel"
+                      onclick="hideAddressForm()"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </section>
+
+            <div class="hr"></div>
+
+            <!-- PASSWORD -->
+            <section style="margin-top: 18px">
+              <h2 style="margin: 0 0 8px">Security</h2>
+
+              <div class="pw-box">
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 12px;
+                  "
+                >
+                  <div>
+                    <div style="font-weight: 800">Change password</div>
+                    <div class="muted-note">
+                      Update your password periodically to keep your account
+                      secure
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      id="pwToggle"
+                      class="pw-toggle"
+                      aria-expanded="false"
+                    >
+                      Change
+                    </button>
+                  </div>
+                </div>
+
+                <div id="pwForm" style="margin-top: 12px; display: none">
+                  <form
+                    id="passwordForm"
+                    method="POST"
+                    action="/account/password"
+                  >
+                    <label class="am-label">Current password</label>
+                    <input
+                      name="current"
+                      type="password"
+                      class="am-input"
+                      required
+                    />
+
+                    <label class="am-label">New password</label>
+                    <input
+                      name="new"
+                      id="newPw"
+                      type="password"
+                      class="am-input"
+                      required
+                    />
+
+                    <label class="am-label">Confirm password</label>
+                    <input
+                      name="confirm"
+                      id="confirmPw"
+                      type="password"
+                      class="am-input"
+                      required
+                    />
+
+                    <div
+                      id="pwFeedback"
+                      class="muted-note"
+                      style="margin-top: 8px"
+                    ></div>
+
+                    <div class="am-form-actions">
+                      <button class="btn-save" type="submit">
+                        Save password
+                      </button>
+                      <button
+                        type="button"
+                        class="btn-cancel"
+                        onclick="togglePw(false)"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div style="margin-top: 12px" class="muted-note">
+                Two-factor and login activity are available under Security
+                (coming soon)
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- footer (small) -->
+    <footer
+      style="
+        max-width: 1200px;
+        margin: 26px auto;
+        padding: 18px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 13px;
+      "
+    >
+      © 2025 AniMerch — All rights reserved
+    </footer>
+
+    <!-- =================== JavaScript =================== -->
+    <script>
+      // Avatar upload preview + animation
+      (function () {
+        const fileInput = document.getElementById("avatarInput");
+        const avatarImg = document.getElementById("avatarImg");
+        const avatarFrame = document.getElementById("avatarFrame");
+        const removeBtn = document.getElementById("removeAvatarBtn");
+
+        fileInput.addEventListener("change", (event) => {
+          const f = event.target.files && event.target.files[0];
+          if (!f) return;
+          if (!f.type.startsWith("image/"))
+            return alert("Please upload an image file.");
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            avatarImg.src = reader.result;
+            // animate frame (class toggles)
+            avatarFrame.classList.add("uploading");
+            setTimeout(() => avatarFrame.classList.remove("uploading"), 900);
+            // if you want to submit immediately or mark as changed, you can set a flag here
+          };
+          reader.readAsDataURL(f);
+        });
+
+        removeBtn.addEventListener("click", () => {
+          // Reset to placeholder (server will restore on save)
+          avatarImg.src =
+            "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop";
+        });
+      })();
+
+      // Password toggle
+      (function () {
+        const pwToggle = document.getElementById("pwToggle");
+        const pwForm = document.getElementById("pwForm");
+        const passwordForm = document.getElementById("passwordForm");
+        const newPw = document.getElementById("newPw");
+        const confirmPw = document.getElementById("confirmPw");
+        const feedback = document.getElementById("pwFeedback");
+
+        function setExpanded(val) {
+          pwToggle.setAttribute("aria-expanded", String(val));
+          pwForm.style.display = val ? "block" : "none";
+        }
+        pwToggle.addEventListener("click", () => {
+          const expanded = pwToggle.getAttribute("aria-expanded") === "true";
+          setExpanded(!expanded);
+        });
+
+        // validate passwords before submission
+        passwordForm &&
+          passwordForm.addEventListener("submit", (e) => {
+            if (newPw.value.length < 8) {
+              e.preventDefault();
+              feedback.textContent = "Password must be at least 8 characters.";
+              feedback.className = "status-err";
+              newPw.focus();
+              return;
+            }
+            if (newPw.value !== confirmPw.value) {
+              e.preventDefault();
+              feedback.textContent = "Passwords do not match.";
+              feedback.className = "status-err";
+              confirmPw.focus();
+              return;
+            }
+            // else allow normal SSR form submit to server
+            feedback.textContent = "Saving…";
+            feedback.className = "status-ok";
+          });
+      })();
+
+      // Address form toggling + simple edit flow
+      (function () {
+        const addBtn = document.getElementById("addAddressBtn");
+        const formWrap = document.getElementById("addressFormWrap");
+        const addressForm = document.getElementById("addressForm");
+        const addressId = document.getElementById("addressId");
+        const addressLabel = document.getElementById("addressLabel");
+        const addressLine1 = document.getElementById("addressLine1");
+        const addressCity = document.getElementById("addressCity");
+        const addressPostal = document.getElementById("addressPostal");
+
+        addBtn.addEventListener("click", () => {
+          showAddressForm();
+        });
+
+        window.editAddress = function (id) {
+          // In real SSR flow you would request the address details or populate via server
+          // Here we'll simulate: fetch card content from DOM for quick demo
+          const card = document.querySelector(
+            '.address-card[data-address-id="' + id + '"]'
+          );
+          if (!card) {
+            showAddressForm();
+            return;
+          }
+          addressId.value = id;
+          // naive parse: first line is label (we used 'Home' or 'Work')
+          const label = card
+            .querySelector("div > div:first-child")
+            .textContent.trim();
+          addressLabel.value = label;
+          // parse address body (in demo we used <br>, take innerText)
+          const body = card.querySelector(".addr-body").innerText || "";
+          // try split into lines
+          const lines = body.split(/\n/);
+          addressLine1.value = lines[0] || "";
+          addressCity.value = lines[1] || "";
+          addressPostal.value = "";
+          showAddressForm();
+        };
+
+        window.removeAddress = function (id) {
+          if (!confirm("Remove this address?")) return;
+          const card = document.querySelector(
+            '.address-card[data-address-id="' + id + '"]'
+          );
+          if (card) card.remove();
+          // Ideally submit delete request to server
+        };
+
+        function showAddressForm() {
+          formWrap.style.display = "block";
+          addressLabel.focus();
+        }
+        window.hideAddressForm = function () {
+          formWrap.style.display = "none";
+          addressForm.reset();
+          addressId.value = "";
+        };
+
+        addressForm.addEventListener("submit", (e) => {
+          // let server handle persistence; here we only block default for demo
+          // remove the next three lines if you want actual HTML form submit to server
+          // e.preventDefault();
+          // alert('Submit address to server (SSR).');
+          // hideAddressForm();
+        });
+      })();
+    </script>
+  </body>
+</html>

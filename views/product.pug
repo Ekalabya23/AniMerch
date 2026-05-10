@@ -1,0 +1,106 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width,initial-scale=1")
+    title= `ANIMARCH : ${title}`
+    link(rel='stylesheet' href='/css/productPage.css')
+    link(rel='stylesheet' href='/css/base.css')
+  body
+    .bg-layer(aria-hidden='')
+      .bg-blob.b1
+      .bg-blob.b2
+    include _topbar
+    include _header
+    .wrap
+      
+      .hero
+       
+        .card.gallery
+          .main-image#mainImage
+            img#mainImgEl(src=`${product.coverImage}`, alt=`${product.name}`)
+          .thumbs#thumbs
+            .thumb.active(data-src=`${product.coverImage}`)
+              img(src=`${product.coverImage}`, alt=`${product.name}`)
+            each image of product.images
+              .thumb(data-src=`${image}`)
+                img(src=`${image}`, alt=`${product.name}`)
+
+        // info
+        .card.info#productInfo
+          .kicker.typed Limited • Collectible
+          .title-row(style="margin-top: 6px")
+            h1.title=`${product.name}`
+            .rating(title=`${product.avgRating} average`)= `★${product.avgRating}` 
+          p.desc= `High-quality ${product.anime} collectible action figure with detailed sculpting and premium paintwork. Perfect for anime fans and collectors. Limited edition — grab yours before it’s gone!`
+          .prices
+            .price-current= `₹${product.discountedPrice}`
+            .price-old= `₹${product.price}`
+            div(style="margin-left: auto; color: var(--muted); font-weight: 700")
+              | Stock:
+              - const stock = product.stock > 0 ? true : false
+              span(style=`color: ${stock ? `#9ef5ff` : `#ff0000`} `)= `${stock ? `In Stock` : `Out of Stock`}`
+          .meta
+            div
+              | Category: 
+              strong(style="color: var(--text)")= `${product.category}`
+            div
+              | Anime: 
+              strong(style="color: var(--text)")= `${product.anime}`
+            div
+              | Release: 
+              strong(style="color: var(--muted)")= `${product.releaseDate.getFullYear()}`
+          .chips(aria-hidden)
+            each detail of product.details
+              .chip= `${detail}`
+          .controls
+            .qty
+              button#decQty(aria-label="decrease") -
+              div#qtyVal(style="font-weight: 800") 1
+              button#incQty(aria-label="increase") +
+            button.btn.ripple#addCart(aria-label="Add to cart") Add to Cart
+            button.wish#addWish ♡ Wishlist
+      
+          div(style="margin-top: 14px; display: flex; gap: 12px; align-items: center;")
+            div(style="width: 58px; height: 58px; border-radius: 10px; background: linear-gradient(90deg, var(--primary), var(--accent)); box-shadow: 0 12px 30px rgba(92, 58, 255, 0.12);")
+            div(style="color: var(--muted)")
+              | Free shipping over ₹1,999 • 7-day returns
+       
+          .reviews#reviewsSection
+            h3 Customer reviews
+            .review-list#reviewList
+              if Array.isArray(product.reviews) && product.reviews.length
+                each review of product.reviews
+                  .review
+                    .avatar
+                      img(src=`${review.user.photo ? review.user.photo : `https://i.pravatar.cc/60?img=${Math.trunc(Math.random() * 30)}`}`, alt="avatar")
+                    .rev-body
+                      .rev-meta
+                        .rev-name=`${review.user.name}`
+                        - const getStars = rating => `${'★'.repeat(Math.floor(rating))}${rating % 1 >= 0.5 ? '½' : ''}${'☆'.repeat(5 - Math.floor(rating) - (rating % 1 >= 0.5 ? 1 : 0))}`;
+                        .rev-stars= `${getStars(review.rating)}`
+                        - const timeAgo = date => { const diff = Math.floor((new Date() - new Date(date)) / 1000); const u = {year:31536000, month:2592000, week:604800, day:86400, hour:3600, minute:60, second:1}; const k = Object.keys(u).find(k=>diff>=u[k]); const v = Math.floor(diff/u[k]);  return `${v} ${k}${v>1?'s':''} ago`; };
+                        div(style="margin-left: auto; color: var(--muted); font-size: 13px;")=`${timeAgo(review.createdAt)}`
+                      .rev-text=`${review.review}`
+              else 
+                p No reviews yet.
+  
+            // add review form
+            .review-form(style="margin-top: 12px")
+              //- input#rName(placeholder="Your name")
+              select#rRating(style="padding: 10px; border-radius: 8px; background: transparent; color: var(--text); border: 1px solid rgba(255, 255, 255, 0.03);")
+                option(value="5") 5 — Excellent
+                option(value="4") 4 — Good
+                option(value="3") 3 — Okay
+                option(value="2") 2 — Bad
+                option(value="1") 1 — Terrible
+              textarea#rText(placeholder="Write a quick review...")
+              input(type="hidden" id="productId" value=`${product._id}`)
+              button.add-review-btn#postReview Post
+      footer
+        | © 
+        span#year
+        |  Animaze. All rights reserved.
+    script(src='/js/product.js')
+
+      

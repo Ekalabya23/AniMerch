@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Animaze — Cart</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Montserrat:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Theme variables (kept consistent with your theme) */
+      :root {
+        --bg: #0c0c1e;
+        --panel: #121224;
+        --panel-2: #191927;
+        --muted: #bfbdd0;
+        --text: #f5f5f8;
+        --accent: #00f6ff;
+        --primary: #5c3aff;
+        --secondary: #ff3366;
+        --glass: rgba(255, 255, 255, 0.03);
+        --radius: 14px;
+        --shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        --maxwidth: 1300px;
+      }
+
+      /* Reset */
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Outfit, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial;
+      }
+      body {
+        background: radial-gradient(
+            900px 300px at 8% -8%,
+            rgba(92, 58, 255, 0.06),
+            transparent
+          ),
+          radial-gradient(
+            700px 250px at 110% 0%,
+            rgba(0, 246, 255, 0.03),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Topbar & header (simple - keeps theme) */
+      .amz-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 24px;
+        font-size: 13px;
+        color: var(--muted);
+        background: linear-gradient(
+          90deg,
+          rgba(92, 58, 255, 0.03),
+          rgba(0, 246, 255, 0.02)
+        );
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        backdrop-filter: blur(6px);
+      }
+      .amz-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 28px;
+        background: rgba(12, 12, 30, 0.6);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .amz-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-family: Montserrat;
+      }
+      .amz-brand .logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: conic-gradient(
+          from 0deg,
+          var(--primary),
+          var(--accent),
+          var(--secondary)
+        );
+        box-shadow: 0 8px 28px rgba(92, 58, 255, 0.12);
+      }
+      .amz-header .amz-actions {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+
+      /* Page wrapper full-bleed content */
+      .amz-container {
+        width: 100%;
+        max-width: var(--maxwidth);
+        margin: 26px auto;
+        padding: 0 18px;
+      }
+
+      /* Cart layout - full width look (cards sit inside centered container) */
+      .amz-cart-wrap {
+        width: 100%;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      .amz-cart-grid {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 22px;
+        align-items: start;
+      }
+
+      /* LEFT: items list (full-width inside left column) */
+      .amz-items {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .amz-cart-legend {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        border-radius: 12px;
+        background: var(--panel-2);
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .amz-cart-legend h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .amz-cart-legend .amz-count {
+        color: var(--muted);
+      }
+
+      /* each row */
+      .amz-item {
+        display: flex;
+        gap: 14px;
+        padding: 14px;
+        border-radius: 12px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        align-items: center;
+        transition: transform 0.18s, box-shadow 0.18s;
+      }
+      .amz-item:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 28px 70px rgba(92, 58, 255, 0.08);
+      }
+      .amz-item-thumb {
+        flex: 0 0 120px;
+        height: 120px;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #0e0e16;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .amz-item-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .amz-item-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .amz-item-title {
+        font-weight: 800;
+        font-size: 16px;
+        margin: 0;
+      }
+      .amz-item-sub {
+        color: var(--muted);
+        font-size: 13px;
+        margin: 0;
+      }
+      .amz-item-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 6px;
+      }
+
+      /* price + qty area */
+      .amz-price {
+        font-weight: 900;
+        color: var(--accent);
+        font-size: 16px;
+      }
+      .amz-oldprice {
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: line-through;
+        margin-left: 8px;
+      }
+      .amz-qty {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--panel);
+        padding: 6px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .amz-qty button {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .amz-qty input {
+        width: 54px;
+        padding: 6px;
+        border-radius: 6px;
+        background: transparent;
+        border: none;
+        color: var(--text);
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .amz-remove {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 8px 10px;
+        border-radius: 10px;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      /* Right side: summary */
+      .amz-summary {
+        position: sticky;
+        top: 120px;
+        padding: 18px;
+        border-radius: 12px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .amz-summary h3 {
+        margin: 0 0 12px 0;
+        font-size: 18px;
+      }
+      .amz-summary .line {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        color: var(--muted);
+      }
+      .amz-summary .total {
+        font-weight: 900;
+        font-size: 18px;
+        color: var(--accent);
+      }
+      .amz-checkout {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .amz-checkout button {
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        color: #fff;
+        padding: 12px;
+        border-radius: 12px;
+        border: none;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 16px 40px rgba(92, 58, 255, 0.12);
+      }
+      .amz-checkout .muted-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+        padding: 10px;
+        border-radius: 10px;
+      }
+
+      /* Addresses / quick actions inside summary */
+      .amz-address {
+        background: var(--panel-2);
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .amz-address strong {
+        color: var(--text);
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      /* Coupon input */
+      .amz-coupon {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .amz-coupon input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        background: transparent;
+        color: var(--text);
+      }
+      .amz-coupon button {
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        background: var(--accent);
+        color: #031016;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      /* Empty cart */
+      .amz-empty {
+        padding: 30px;
+        text-align: center;
+        color: var(--muted);
+        background: var(--panel-2);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+
+      /* footer small */
+      .amz-footer-note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+
+      /* responsive */
+      @media (max-width: 1000px) {
+        .amz-cart-grid {
+          grid-template-columns: 1fr;
+          display: block;
+        }
+        .amz-summary {
+          position: relative;
+          top: auto;
+          margin-top: 12px;
+        }
+        .amz-item-thumb {
+          flex: 0 0 110px;
+          height: 110px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .amz-item {
+          flex-direction: row;
+          gap: 10px;
+          padding: 12px;
+        }
+        .amz-item-thumb {
+          flex: 0 0 90px;
+          height: 90px;
+        }
+        .amz-qty input {
+          width: 46px;
+        }
+        .amz-container {
+          padding: 0 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- topbar/header (small, keeps the theme) -->
+    <div class="amz-topbar">
+      <div class="amz-top-left">
+        <span
+          class="badge"
+          style="
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-weight: 800;
+          "
+          >NEW DROP LIVE</span
+        >
+      </div>
+      <div>Free shipping on orders over ₹1,999</div>
+      <div>INR (₹)</div>
+    </div>
+
+    <header class="amz-header" role="banner">
+      <div class="amz-brand">
+        <span class="logo" aria-hidden></span>
+        <span>AniMerch</span>
+      </div>
+
+      <div class="amz-actions">
+        <nav aria-label="Primary">
+          <a
+            href="#"
+            style="
+              color: var(--muted);
+              text-decoration: none;
+              margin-right: 14px;
+            "
+            >Shop</a
+          >
+          <a
+            href="#"
+            style="
+              color: var(--muted);
+              text-decoration: none;
+              margin-right: 14px;
+            "
+            >Figures</a
+          >
+          <a href="#" style="color: var(--muted); text-decoration: none"
+            >Apparel</a
+          >
+        </nav>
+        <div style="width: 14px"></div>
+        <div style="display: flex; align-items: center; gap: 12px">
+          <button
+            style="
+              background: transparent;
+              border: 1px solid rgba(255, 255, 255, 0.04);
+              color: var(--muted);
+              padding: 8px 10px;
+              border-radius: 8px;
+            "
+          >
+            LOG OUT
+          </button>
+          <div style="display: flex; align-items: center; gap: 8px">
+            <img
+              src="https://i.pravatar.cc/40"
+              alt="user"
+              style="
+                width: 40px;
+                height: 40px;
+                border-radius: 999px;
+                border: 2px solid rgba(255, 255, 255, 0.04);
+              "
+            />
+            <strong style="letter-spacing: 1px">RAHAUL</strong>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="amz-container" role="main">
+      <div class="amz-cart-wrap" role="region" aria-label="Your cart">
+        <div class="amz-cart-grid">
+          <!-- LEFT: items -->
+          <div>
+            <div class="amz-items">
+              <div class="amz-cart-legend">
+                <h2>Your Cart</h2>
+                <div class="amz-count" id="amz-count">3 items</div>
+              </div>
+              <!-- Item 1 -->
+              <div class="amz-item" data-id="p1" data-price="2799">
+                <div class="amz-item-thumb" aria-hidden>
+                  <img
+                    src="https://resize.cdn.otakumode.com/ex/700.1049/shop/product/611afd0f9710407696f94fc9a81233a4.jpg.webp"
+                    alt="Hyperdimension Neptunia figure"
+                  />
+                </div>
+                <div class="amz-item-body">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: flex-start;
+                      gap: 12px;
+                    "
+                  >
+                    <div>
+                      <div class="amz-item-title">
+                        Hyperdimension Neptunia VII — Next Green (1/7)
+                      </div>
+                      <div class="amz-item-sub">
+                        Scale Figure • Vertex • Preorder
+                      </div>
+                    </div>
+                    <div style="text-align: right">
+                      <div class="amz-price">₹2,799</div>
+                      <div class="amz-oldprice">₹3,499</div>
+                    </div>
+                  </div>
+
+                  <div class="amz-item-meta">
+                    <div class="amz-qty" role="group" aria-label="Quantity">
+                      <button class="amz-qty-dec" aria-label="Decrease">
+                        −
+                      </button>
+                      <input
+                        type="number"
+                        min="1"
+                        value="1"
+                        class="amz-qty-input"
+                        aria-label="Quantity of Hyperdimension"
+                      />
+                      <button class="amz-qty-inc" aria-label="Increase">
+                        +
+                      </button>
+                    </div>
+
+                    <button class="amz-remove" aria-label="Remove item">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="amz-item" data-id="p2" data-price="12499">
+                <div class="amz-item-thumb" aria-hidden>
+                  <img
+                    src="https://resize.cdn.otakumode.com/ex/700.1050/shop/product/592de6c8880940e5951cf73b66707c3b.jpg.webp"
+                    alt="Ryuko figure"
+                  />
+                </div>
+                <div class="amz-item-body">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: flex-start;
+                      gap: 12px;
+                    "
+                  >
+                    <div>
+                      <div class="amz-item-title">
+                        Kill la Kill — Ryuko Matoi (1/7)
+                      </div>
+                      <div class="amz-item-sub">
+                        Scale Figure • Good Smile Arts SH
+                      </div>
+                    </div>
+                    <div style="text-align: right">
+                      <!-- note: Japanese MSRP divided by 5 as requested earlier -->
+                      <div class="amz-price">₹2,499</div>
+                      <div class="amz-oldprice">₹3,099</div>
+                    </div>
+                  </div>
+
+                  <div class="amz-item-meta">
+                    <div class="amz-qty" role="group" aria-label="Quantity">
+                      <button class="amz-qty-dec">−</button>
+                      <input
+                        type="number"
+                        min="1"
+                        value="1"
+                        class="amz-qty-input"
+                        aria-label="Quantity of Ryuko"
+                      />
+                      <button class="amz-qty-inc">+</button>
+                    </div>
+
+                    <button class="amz-remove">Remove</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="amz-item" data-id="p3" data-price="799">
+                <div class="amz-item-thumb" aria-hidden>
+                  <img
+                    src="https://www.comicsense.store/wp-content/uploads/2025/08/Haikyu-Oversized-Jersey_Listing-Imdfages_v2-1_comicsense-300x400.jpg"
+                    alt="Haikyu jersey"
+                  />
+                </div>
+                <div class="amz-item-body">
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: flex-start;
+                      gap: 12px;
+                    "
+                  >
+                    <div>
+                      <div class="amz-item-title">Haikyu Oversized Jersey</div>
+                      <div class="amz-item-sub">Apparel • Unisex</div>
+                    </div>
+                    <div style="text-align: right">
+                      <div class="amz-price">₹799</div>
+                    </div>
+                  </div>
+
+                  <div class="amz-item-meta">
+                    <div class="amz-qty" role="group" aria-label="Quantity">
+                      <button class="amz-qty-dec">−</button>
+                      <input
+                        type="number"
+                        min="1"
+                        value="1"
+                        class="amz-qty-input"
+                        aria-label="Quantity of Jersey"
+                      />
+                      <button class="amz-qty-inc">+</button>
+                    </div>
+
+                    <button class="amz-remove">Remove</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- If empty state: -->
+              <!-- <div class="amz-empty">Your cart is empty. Browse the store to add items.</div> -->
+            </div>
+
+            <div style="margin-top: 12px" class="amz-footer-note">
+              Items in your cart are reserved for 60 minutes. Taxes & shipping
+              calculated at checkout.
+            </div>
+          </div>
+
+          <!-- RIGHT: order summary -->
+          <aside class="amz-summary" aria-label="Order summary">
+            <h3>Order summary</h3>
+
+            <div class="line">
+              <span>Subtotal</span><span id="amz-subtotal">₹5,??0</span>
+            </div>
+            <div class="line">
+              <span>Shipping</span><span id="amz-shipping">₹99</span>
+            </div>
+            <div class="line">
+              <span>Estimated tax</span><span id="amz-tax">₹0</span>
+            </div>
+
+            <div
+              style="
+                height: 1px;
+                background: linear-gradient(
+                  90deg,
+                  rgba(255, 255, 255, 0.02),
+                  transparent
+                );
+                margin: 12px 0;
+                border-radius: 2px;
+              "
+            ></div>
+
+            <div class="line total">
+              <span>Total</span><span id="amz-total">—</span>
+            </div>
+
+            <div class="amz-checkout">
+              <button id="amz-checkout-btn">Proceed to Checkout</button>
+              <button class="muted-btn" onclick="alert('Continue shopping')">
+                Continue shopping
+              </button>
+
+              <div style="margin-top: 10px" class="amz-address">
+                <strong>Shipping Address</strong>
+                <div id="amz-address-line">Select at checkout</div>
+                <a
+                  href="#"
+                  style="
+                    color: var(--accent);
+                    font-weight: 700;
+                    text-decoration: none;
+                    margin-top: 8px;
+                    display: inline-block;
+                  "
+                  >Manage addresses</a
+                >
+              </div>
+
+              <div class="amz-coupon">
+                <input
+                  type="text"
+                  id="amz-coupon-input"
+                  placeholder="Have a coupon?"
+                />
+                <button id="amz-apply-coupon">Apply</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <footer style="color: var(--muted); text-align: center; padding: 28px 18px">
+      © 2025 Animaze — All rights reserved
+    </footer>
+
+    <script>
+      // Minimal JS to update totals and support qty +/- and remove.
+      (function () {
+        const formatINR = (n) => "₹" + Number(n).toLocaleString("en-IN");
+
+        function recalc() {
+          const rows = Array.from(document.querySelectorAll(".amz-item"));
+          let subtotal = 0;
+          let count = 0;
+          rows.forEach((r) => {
+            const price = Number(r.dataset.price) || 0;
+            const qty = Number(r.querySelector(".amz-qty-input").value) || 0;
+            subtotal += price * qty;
+            count += qty;
+          });
+          const shipping = subtotal > 0 ? 99 : 0;
+          const tax = Math.round(subtotal * 0.05); // demo 5% tax
+          const total = subtotal + shipping + tax;
+
+          document.getElementById("amz-subtotal").textContent =
+            formatINR(subtotal);
+          document.getElementById("amz-shipping").textContent =
+            formatINR(shipping);
+          document.getElementById("amz-tax").textContent = formatINR(tax);
+          document.getElementById("amz-total").textContent = formatINR(total);
+          document.getElementById("amz-count").textContent =
+            count + " item" + (count === 1 ? "" : "s");
+        }
+
+        document.querySelectorAll(".amz-item").forEach((item) => {
+          const dec = item.querySelector(".amz-qty-dec");
+          const inc = item.querySelector(".amz-qty-inc");
+          const input = item.querySelector(".amz-qty-input");
+          const remove = item.querySelector(".amz-remove");
+
+          if (dec)
+            dec.addEventListener("click", () => {
+              let v = Math.max(1, Number(input.value || 1) - 1);
+              input.value = v;
+              recalc();
+            });
+          if (inc)
+            inc.addEventListener("click", () => {
+              let v = Math.max(1, Number(input.value || 1) + 1);
+              input.value = v;
+              recalc();
+            });
+          if (input)
+            input.addEventListener("change", () => {
+              if (Number(input.value) < 1) input.value = 1;
+              recalc();
+            });
+          if (remove)
+            remove.addEventListener("click", () => {
+              // remove from DOM — in server-side app, this should call backend api to persist
+              item.remove();
+              recalc();
+            });
+        });
+
+        // coupon demo
+        document
+          .getElementById("amz-apply-coupon")
+          .addEventListener("click", () => {
+            const code = document
+              .getElementById("amz-coupon-input")
+              .value.trim();
+            if (!code) return alert("Enter a coupon code");
+            // demo: 'ANIM10' gives 10% off subtotal
+            if (code.toUpperCase() === "ANIM10") {
+              const subtotalEl = document.getElementById("amz-subtotal");
+              const subtotal =
+                Number(subtotalEl.textContent.replace(/[^\d]/g, "")) || 0;
+              const discount = Math.round(subtotal * 0.1);
+              alert("Coupon applied: " + formatINR(discount) + " off (demo)");
+            } else {
+              alert("Invalid coupon (demo)");
+            }
+          });
+
+        // checkout button (demo)
+        document
+          .getElementById("amz-checkout-btn")
+          .addEventListener("click", () => {
+            alert(
+              "Proceed to checkout (demo). Implement server flow to create order."
+            );
+          });
+
+        // initial calc
+        recalc();
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width,initial-scale=1')
+  title= `AniMerch Genre - ${title}`
+  link(rel='stylesheet' href='/css/productList.css')
+  link(rel='stylesheet' href='/css/base.css')
+body
+  include _topbar
+  include _header
+  main.wrap(role='main')
+    // genre hero will adapt from URL ?genre=...
+    section#genreHero.genre-hero
+      .left
+        #kicker.kicker Types
+        h2#genreTitle= `${title}`
+        p#genreDesc
+          | Browse popular items from this genre &mdash; neon-themed, SSR-friendly
+          | markup.
+      .right
+        #countDisplay.count= `${products.length} products`
+    // filters
+    div(style='display: flex; align-items: center; gap: 12px; flex-wrap: wrap')
+      #genreChips.filters(aria-label='Genres')
+        a.chip.active(data-genre='' href="/anime/All") All
+        a.chip(data-genre='Demon Slayer' href="/anime/Demon Slayer") Demon Slayer
+        a.chip(data-genre='One Piece' href="/anime/One Piece") One Piece
+        a.chip(data-genre='Naruto' href="/anime/Naruto") Naruto
+        a.chip(data-genre='Dragon Ball' href="/anime/Dragon Ball") Dragon Ball
+        a.chip(data-genre='Jujutsu Kaisen' href="/anime/Jujutsu Kaisen") Jujutsu Kaisen
+    // products grid
+    section(style='margin-top: 12px')
+      #productGrid.grid(aria-live='polite')
+        each product of products
+          article.card(tabindex='0')
+            .badge-dis -22%
+            .thumb
+              img(loading='lazy' src=`${product.coverImage}` alt=`${product.name}`)
+            .body
+              div(style='display:flex;justify-content:space-between;align-items:flex-start;gap:10px')
+                a.title-link(href=`/product/${product.slug}`)
+                  .title= `${product.name}`
+                  .meta= `${product.anime}•${product.avgRating}★`
+                div(style='text-align:right')
+                  .price-row
+                    .price-current= `₹${product.discountedPrice}`
+                  .price-old= `₹${product.price}`
+              .actions(style='margin-top:12px')
+                button.btn.add(data-id='1') Add

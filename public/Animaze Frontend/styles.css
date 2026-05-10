@@ -1,0 +1,158 @@
+/* Cyberpunk Theme Variables */
+:root {
+  --primary: #5c3aff;
+  --secondary: #ff3366;
+  --accent: #00f6ff;
+  --bg-dark: #0c0c1e;
+  --bg-light: rgba(255, 255, 255, 0.05);
+  --text-light: #f5f5f5;
+  --text-muted: #cccccc;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* Header */
+.header {
+  padding: 1rem 2rem;
+  text-align: center;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.logo span {
+  color: var(--accent);
+}
+
+/* Main Container */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+}
+
+/* Product Details Section */
+.product-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  background: var(--bg-light);
+  border-radius: 15px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px var(--primary);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.product-image img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+}
+.product-image img:hover {
+  transform: scale(1.05);
+}
+
+.product-info {
+  flex: 1;
+}
+.product-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.product-price {
+  color: var(--accent);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.product-description {
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+}
+.buy-btn {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  background: var(--primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 0 15px var(--primary);
+}
+.buy-btn:hover {
+  background: var(--secondary);
+  box-shadow: 0 0 25px var(--secondary);
+}
+
+/* Recommendations */
+.recommendations {
+  margin-top: 3rem;
+}
+.recommendations h3 {
+  margin-bottom: 1rem;
+}
+.rec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+.rec-card {
+  background: var(--bg-light);
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px var(--accent);
+}
+.rec-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+}
+.rec-card:hover img {
+  transform: scale(1.08);
+}
+.rec-card:hover {
+  box-shadow: 0 0 20px var(--accent);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-details {
+    flex-direction: column;
+    text-align: center;
+  }
+  .product-image img {
+    max-width: 100%;
+  }
+}
