@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -26,8 +26,14 @@
         padding: 0;
       }
       body {
-        font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
-        background: radial-gradient(
+        font-family:
+          Inter,
+          Segoe UI,
+          Roboto,
+          Arial,
+          sans-serif;
+        background:
+          radial-gradient(
             800px 300px at 10% -10%,
             rgba(92, 58, 255, 0.06),
             transparent
@@ -361,9 +367,7 @@
 
         <div style="margin-top: 8px; color: var(--muted)">
           Don't have an account?
-          <a
-            href="signup.html"
-            style="color: var(--accent); text-decoration: none"
+          <a href="/signup" style="color: var(--accent); text-decoration: none"
             >Create one</a
           >
         </div>
@@ -374,9 +378,6 @@
           src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=900&auto=format&fit=crop"
           alt="neon arcade"
         />
-        <div class="note">
-          Tip: Use demo login while testing — works locally without backend.
-        </div>
       </div>
     </div>
 
@@ -413,7 +414,7 @@
         // check localStorage "animaze_users" (from signup demo)
         const users = JSON.parse(localStorage.getItem("animaze_users") || "[]");
         const found = users.find(
-          (u) => u.email && u.email.toLowerCase() === email.toLowerCase()
+          (u) => u.email && u.email.toLowerCase() === email.toLowerCase(),
         );
         if (!found) {
           // allow demo account
@@ -437,7 +438,7 @@
         // set simple session in localStorage
         localStorage.setItem(
           "animaze_session",
-          JSON.stringify({ email: user.email, name: user.first || "" })
+          JSON.stringify({ email: user.email, name: user.first || "" }),
         );
         setTimeout(() => (location.href = "product.html"), 900);
       }

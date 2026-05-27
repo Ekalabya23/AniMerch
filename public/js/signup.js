@@ -44,84 +44,84 @@ signupForm.addEventListener("submit", (e) => {
   signup(name, email, password, passwordConfirm);
 });
 
-// ["dragenter", "dragover"].forEach((ev) =>
-//   drop.addEventListener(ev, (e) => {
-//     e.preventDefault();
-//     e.stopPropagation();
-//     drop.classList.add("dragover");
-//   })
-// );
-// ["dragleave", "drop"].forEach((ev) =>
-//   drop.addEventListener(ev, (e) => {
-//     e.preventDefault();
-//     e.stopPropagation();
-//     drop.classList.remove("dragover");
-//   })
-// );
+["dragenter", "dragover"].forEach((ev) =>
+  drop.addEventListener(ev, (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    drop.classList.add("dragover");
+  }),
+);
+["dragleave", "drop"].forEach((ev) =>
+  drop.addEventListener(ev, (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    drop.classList.remove("dragover");
+  }),
+);
 
-// drop.addEventListener("drop", (e) => {
-//   const dt = e.dataTransfer;
-//   if (!dt || !dt.files || dt.files.length === 0) return;
-//   handleFile(dt.files[0]);
-// });
+drop.addEventListener("drop", (e) => {
+  const dt = e.dataTransfer;
+  if (!dt || !dt.files || dt.files.length === 0) return;
+  handleFile(dt.files[0]);
+});
 
-// pickBtn.addEventListener("click", () => fileInput.click());
-// fileInput.addEventListener("change", () => {
-//   if (fileInput.files.length) handleFile(fileInput.files[0]);
-// });
+pickBtn.addEventListener("click", () => fileInput.click());
+fileInput.addEventListener("change", () => {
+  if (fileInput.files.length) handleFile(fileInput.files[0]);
+});
 
-// function handleFile(file) {
-//   if (!file) return;
-//   if (!file.type.startsWith("image/")) {
-//     alert("Please select an image");
-//     return;
-//   }
-//   if (file.size > 5 * 1024 * 1024) {
-//     alert("Maximum 5MB");
-//     return;
-//   }
-//   const reader = new FileReader();
-//   reader.onload = () => {
-//     avatarPreview.src = reader.result;
-//     previewArea.style.display = "block";
-//     fileNameEl.textContent =
-//       file.name + " • " + Math.round(file.size / 1024) + "KB";
+function handleFile(file) {
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    alert("Please select an image");
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    alert("Maximum 5MB");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    avatarPreview.src = reader.result;
+    previewArea.style.display = "block";
+    fileNameEl.textContent =
+      file.name + " • " + Math.round(file.size / 1024) + "KB";
 
-//     // small pulse animation on preview
-//     avatarPreview.style.transform = "scale(0.96)";
-//     setTimeout(() => (avatarPreview.style.transform = "scale(1)"), 60);
+    // small pulse animation on preview
+    avatarPreview.style.transform = "scale(0.96)";
+    setTimeout(() => (avatarPreview.style.transform = "scale(1)"), 60);
 
-//     // store for upload simulation
-//     previewArea.dataset.file = file.name;
-//   };
-//   reader.readAsDataURL(file);
-// }
+    // store for upload simulation
+    previewArea.dataset.file = file.name;
+  };
+  reader.readAsDataURL(file);
+}
 
-// removeBtn.addEventListener("click", () => {
-//   avatarPreview.src = "";
-//   previewArea.style.display = "none";
-//   fileInput.value = "";
-// });
+removeBtn.addEventListener("click", () => {
+  avatarPreview.src = "";
+  previewArea.style.display = "none";
+  fileInput.value = "";
+});
 
-// uploadBtn.addEventListener("click", async () => {
-//   if (!previewArea.dataset.file) return alert("Pick a file first");
-//   uploadBtn.disabled = true;
-//   uploadBtn.textContent = "Uploading...";
+uploadBtn.addEventListener("click", async () => {
+  if (!previewArea.dataset.file) return alert("Pick a file first");
+  uploadBtn.disabled = true;
+  uploadBtn.textContent = "Uploading...";
 
-//   // create simple progress ring animation using CSS + timeout simulation
-//   const start = Date.now();
-//   const duration = 900 + Math.random() * 900;
-//   let progress = 0;
-//   const id = setInterval(() => {
-//     progress = Math.min(1, (Date.now() - start) / duration);
-//     uploadBtn.style.boxShadow = `0 10px 40px rgba(92,58,255,${
-//       0.08 + progress * 0.18
-//     })`;
-//     if (progress >= 1) {
-//       clearInterval(id);
-//       uploadBtn.disabled = false;
-//       uploadBtn.textContent = "Saved ✓";
-//       setTimeout(() => (uploadBtn.textContent = "Upload & Save"), 900);
-//     }
-//   }, 60);
-// });
+  // create simple progress ring animation using CSS + timeout simulation
+  const start = Date.now();
+  const duration = 900 + Math.random() * 900;
+  let progress = 0;
+  const id = setInterval(() => {
+    progress = Math.min(1, (Date.now() - start) / duration);
+    uploadBtn.style.boxShadow = `0 10px 40px rgba(92,58,255,${
+      0.08 + progress * 0.18
+    })`;
+    if (progress >= 1) {
+      clearInterval(id);
+      uploadBtn.disabled = false;
+      uploadBtn.textContent = "Saved ✓";
+      setTimeout(() => (uploadBtn.textContent = "Upload & Save"), 900);
+    }
+  }, 60);
+});
