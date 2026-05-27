@@ -36,7 +36,7 @@
 
   function getSelectedAddressId() {
     const selected = document.querySelector(
-      'input[name="shippingAddress"]:checked'
+      'input[name="shippingAddress"]:checked',
     );
     if (!selected) return null;
     return selected.value; // this will be address._id
@@ -46,12 +46,12 @@
     cartId,
     userName,
     userEmail,
-    selectedAddressId
+    selectedAddressId,
   ) => {
     try {
       const res = await axios.get(
-        `http://127.0.0.1:4000/api/v1/cheakout/${cartId}`,
-        {}
+        `https://animerch-1-76qf.onrender.com/api/v1/cheakout/${cartId}`,
+        {},
       );
 
       const data = res.data;
@@ -80,13 +80,13 @@
             };
 
             const res = await axios.post(
-              "http://127.0.0.1:4000/api/v1/cheakout/verify-payment",
+              "https://animerch-1-76qf.onrender.com/api/v1/cheakout/verify-payment",
               payload,
               {
                 headers: {
                   "Content-Type": "application/json",
                 },
-              }
+              },
             );
 
             if (res.status === 200) {
@@ -128,17 +128,20 @@
 
   const chashOnDilivery = async (selectedAddressId, totalPrice, cart) => {
     try {
-      const res = await axios.post(`http://127.0.0.1:4000/api/v1/order`, {
-        payment: "post-paid",
-        totalPrice,
-        address: selectedAddressId,
-        products: cart,
-      });
+      const res = await axios.post(
+        `https://animerch-1-76qf.onrender.com/api/v1/order`,
+        {
+          payment: "post-paid",
+          totalPrice,
+          address: selectedAddressId,
+          products: cart,
+        },
+      );
 
       if (res.status === 201) {
         window.location.href = "/payment-success";
         const res = await axios.delete(
-          `http://127.0.0.1:4000/api/v1/users/cart`
+          `https://animerch-1-76qf.onrender.com/api/v1/users/cart`,
         );
       }
     } catch (err) {
@@ -170,7 +173,7 @@
     try {
       const selectedAddressId = getSelectedAddressId();
       const totalPrice = parseFloat(
-        document.getElementById("amz-total").textContent.replace(/[^\d.]/g, "")
+        document.getElementById("amz-total").textContent.replace(/[^\d.]/g, ""),
       );
       const cart = getCartItems();
       chashOnDilivery(selectedAddressId, totalPrice, cart);

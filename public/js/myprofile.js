@@ -31,11 +31,11 @@
       form.append("photo", f);
 
       const res = await axios.patch(
-        "http://127.0.0.1:4000/api/v1/users/updateMyPhoto",
+        "https://animerch-1-76qf.onrender.com/api/v1/users/updateMyPhoto",
         form,
         {
           headers: { "Content-Type": "multipart/form-data" },
-        }
+        },
       );
 
       if (res.status === 200) {
@@ -107,7 +107,7 @@
 
   window.editAddress = function (id) {
     const card = document.querySelector(
-      '.address-card[data-address-id="' + id + '"]'
+      '.address-card[data-address-id="' + id + '"]',
     );
     if (!card) {
       showAddressForm();
@@ -144,11 +144,11 @@
     pinCode,
     state,
     district,
-    country
+    country,
   ) => {
     try {
       const res = await axios.post(
-        "http://127.0.0.1:4000/api/v1/users/address",
+        "https://animerch-1-76qf.onrender.com/api/v1/users/address",
         {
           city,
           street,
@@ -157,7 +157,7 @@
           state,
           district,
           country,
-        }
+        },
       );
       if (res.status === 201) location.reload(true);
     } catch (err) {
@@ -180,11 +180,11 @@
   const editProfile = async (name, email) => {
     try {
       const res = await axios.patch(
-        "http://127.0.0.1:4000/api/v1/users/updateMe",
+        "https://animerch-1-76qf.onrender.com/api/v1/users/updateMe",
         {
           name,
           email,
-        }
+        },
       );
 
       if (res.status === 200) location.reload(true);
@@ -203,12 +203,12 @@
   const changePassword = async (passwordCurrent, password, passwordConfirm) => {
     try {
       const res = await axios.patch(
-        "http://127.0.0.1:4000/api/v1/users/changePassword",
+        "https://animerch-1-76qf.onrender.com/api/v1/users/changePassword",
         {
           passwordCurrent,
           password,
           passwordConfirm,
-        }
+        },
       );
 
       if (res.status === 200) location.reload(true);
@@ -228,7 +228,7 @@
   const deleteAddress = async (id) => {
     try {
       const res = await axios.delete(
-        `http://127.0.0.1:4000/api/v1/users/address/${id}`
+        `https://animerch-1-76qf.onrender.com/api/v1/users/address/${id}`,
       );
 
       if (res.status === 200) location.reload(true);

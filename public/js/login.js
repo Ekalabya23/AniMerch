@@ -1,9 +1,12 @@
 const login = async (email, password) => {
   try {
-    const res = await axios.post("http://127.0.0.1:4000/api/v1/users/login", {
-      email,
-      password,
-    });
+    const res = await axios.post(
+      "https://animerch-1-76qf.onrender.com/api/v1/users/login",
+      {
+        email,
+        password,
+      },
+    );
 
     if (res.status === 201) {
       document.getElementById("msg").textContent = "✅ Login successful!";

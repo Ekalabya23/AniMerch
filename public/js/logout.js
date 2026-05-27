@@ -1,6 +1,8 @@
 const logout = async () => {
   try {
-    const res = await axios.get("http://127.0.0.1:4000/api/v1/users/logout");
+    const res = await axios.get(
+      "https://animerch-1-76qf.onrender.com/api/v1/users/logout",
+    );
 
     if (res.status === 200)
       setTimeout(() => {

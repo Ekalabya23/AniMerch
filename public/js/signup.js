@@ -11,12 +11,15 @@ const signupForm = document.getElementById("signupForm");
 
 const signup = async (name, email, password, passwordConfirm) => {
   try {
-    const res = await axios.post("http://127.0.0.1:4000/api/v1/users/signup", {
-      name,
-      email,
-      password,
-      passwordConfirm,
-    });
+    const res = await axios.post(
+      "https://animerch-1-76qf.onrender.com/api/v1/users/signup",
+      {
+        name,
+        email,
+        password,
+        passwordConfirm,
+      },
+    );
 
     if (res.status === 201) {
       successBanner.textContent = "✅ Singup successful!";

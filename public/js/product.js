@@ -58,21 +58,21 @@ function escapeHtml(s) {
         ">": "&gt;",
         '"': "&quot;",
         "'": "&#39;",
-      }[ch])
+      })[ch],
   );
 }
 
 const postReview = async (review, rating, product) => {
   try {
     const res = await axios.post(
-      "http://127.0.0.1:4000/api/v1/review",
+      "https://animerch-1-76qf.onrender.com/api/v1/review",
       {
         review,
         rating,
         product,
         createdAt: Date.now(),
       },
-      { withCredentials: true }
+      { withCredentials: true },
     );
     if (res.status === 201) location.reload(true);
   } catch (err) {
@@ -90,12 +90,12 @@ document.getElementById("postReview").addEventListener("click", () => {
 const addToCart = async (product, quantity) => {
   try {
     const res = await axios.post(
-      "http://127.0.0.1:4000/api/v1/users/cart",
+      "https://animerch-1-76qf.onrender.com/api/v1/users/cart",
       {
         product,
         quantity,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     );
     if (res.status === 200) location.reload(true);
   } catch (err) {
