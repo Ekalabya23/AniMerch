@@ -4,8 +4,8 @@
   "description": "Learning Express",
   "main": "app.js",
   "scripts": {
-    "start:dev": "nodemon server.js",
-    "start:prd": "NODE_ENV=productions nodemon server.js",
+    "dev": "nodemon server.js",
+    "start": "node server.js",
     "debug": "ndb server.js"
   },
   "author": "Ekalabya Patel",
